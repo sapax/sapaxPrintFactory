@@ -1,0 +1,210 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "sapaX Print Cloud API",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/keys/powerapps": {
+      "post": {
+        "tags": [
+          "ApiKeys"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/keys/agent": {
+      "post": {
+        "tags": [
+          "ApiKeys"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/print-jobs": {
+      "post": {
+        "tags": [
+          "PrintJobs"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/CloudPrintJob"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/print-jobs/next": {
+      "get": {
+        "tags": [
+          "PrintJobs"
+        ],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "X-Agent-Id",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/print-jobs/{id}/complete": {
+      "post": {
+        "tags": [
+          "PrintJobs"
+        ],
+        "consumes": [
+          "application/json",
+          "text/json",
+          "application/*+json"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "type": "string",
+            "format": "uuid"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/JobCompletionDto"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "CloudPrintJob": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "format": "uuid",
+          "type": "string"
+        },
+        "printerId": {
+          "type": "string"
+        },
+        "fileName": {
+          "type": "string"
+        },
+        "fileBase64": {
+          "type": "string"
+        },
+        "zpl": {
+          "type": "string"
+        },
+        "status": {
+          "$ref": "#/definitions/CloudPrintJobStatus"
+        },
+        "createdAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "claimedByAgentId": {
+          "type": "string"
+        },
+        "claimedAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "completedAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "errorMessage": {
+          "type": "string"
+        },
+        "retryCount": {
+          "format": "int32",
+          "type": "integer"
+        },
+        "lockedUntil": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "CloudPrintJobStatus": {
+      "format": "int32",
+      "enum": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "type": "integer"
+    },
+    "JobCompletionDto": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "error": {
+          "type": "string"
+        }
+      }
+    }
+  },
+  "securityDefinitions": {
+    "ApiKey": {
+      "type": "apiKey",
+      "name": "X-API-KEY",
+      "in": "header",
+      "description": "API Key via X-API-KEY"
+    }
+  },
+  "security": [
+    {
+      "ApiKey": [ ]
+    }
+  ]
+}

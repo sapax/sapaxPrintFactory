@@ -1,0 +1,546 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\controllers\\apikeyscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\models\\apikey.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\models\\apikeyentity.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\security\\apikeymiddleware.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\security\\apikeyrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\services\\printjoblogrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\services\\printjobrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\services\\cloudprintjobstore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\services\\cloudagentregistry.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\models\\cloudprintjob.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintmaster\\services\\cloudagentpoller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|solutionrelative:services\\cloudagentpoller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\controllers\\printjobscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\models\\jobcompletiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1BB533A-9F33-4F6F-B338-BCE33790B643}|..\\sapaXPrintCore\\sapaXPrintCore.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintcore\\cloud\\cloudprintclient.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1BB533A-9F33-4F6F-B338-BCE33790B643}|..\\sapaXPrintCore\\sapaXPrintCore.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintcore\\jobs\\printjobqueue.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1BB533A-9F33-4F6F-B338-BCE33790B643}|..\\sapaXPrintCore\\sapaXPrintCore.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintcore\\models\\printjob.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1BB533A-9F33-4F6F-B338-BCE33790B643}|..\\sapaXPrintCore\\sapaXPrintCore.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintcore\\printing\\bitmapprintservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1BB533A-9F33-4F6F-B338-BCE33790B643}|..\\sapaXPrintCore\\sapaXPrintCore.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintcore\\printing\\zebraprinterservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1BB533A-9F33-4F6F-B338-BCE33790B643}|..\\sapaXPrintCore\\sapaXPrintCore.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintcore\\jobs\\printjobworker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A1BB533A-9F33-4F6F-B338-BCE33790B643}|..\\sapaXPrintCore\\sapaXPrintCore.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintcore\\printing\\spoolerjobmonitor.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintmaster\\mainwindow.admin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|solutionrelative:mainwindow.admin.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintmaster\\services\\admindbservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|solutionrelative:services\\admindbservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintmaster\\services\\schematemplates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|solutionrelative:services\\schematemplates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintmaster\\services\\usersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|solutionrelative:services\\usersservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintmaster\\services\\appsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|solutionrelative:services\\appsettings.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\controllers\\agentscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintmaster\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|solutionrelative:mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintmaster\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|solutionrelative:mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintmaster\\sapaxprintmaster.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|solutionrelative:sapaxprintmaster.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintmaster\\services\\agentcredentialstore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|solutionrelative:services\\agentcredentialstore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintmaster\\services\\securestore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|solutionrelative:services\\securestore.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|d:\\sapaxprintingnode\\v6\\sapaxprintmaster\\services\\dbconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{FBBEDA79-26BA-4DCD-8B06-DC8CA0D69E05}|sapaXPrintMaster.csproj|solutionrelative:services\\dbconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{68943447-E17B-202F-3FA6-F4362ECF6F22}|..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj|d:\\sapaxprintingnode\\v1.0.7\\sapaxprintcloud\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 9,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\MainWindow.xaml.cs",
+              "RelativeToolTip": "MainWindow.xaml.cs",
+              "ViewState": "AgIAACcBAAAAAAAAAAA1wFUBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-12-25T19:42:29.917Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "MainWindow.xaml",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\MainWindow.xaml",
+              "RelativeToolTip": "MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2026-10-05T14:51:42.45Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "CloudAgentPoller.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\CloudAgentPoller.cs",
+              "RelativeDocumentMoniker": "Services\\CloudAgentPoller.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\CloudAgentPoller.cs",
+              "RelativeToolTip": "Services\\CloudAgentPoller.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAFwAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T23:34:28.273Z",
+              "IsPinned": true
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ApiKeyRepository.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Security\\ApiKeyRepository.cs",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\Security\\ApiKeyRepository.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Security\\ApiKeyRepository.cs",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\Security\\ApiKeyRepository.cs",
+              "ViewState": "AgIAADAAAAAAAAAAAAAkwE0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T20:29:30.43Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "ApiKeyMiddleware.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Security\\ApiKeyMiddleware.cs",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\Security\\ApiKeyMiddleware.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Security\\ApiKeyMiddleware.cs",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\Security\\ApiKeyMiddleware.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACEAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T20:29:46.055Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ApiKeysController.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Controllers\\ApiKeysController.cs",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\Controllers\\ApiKeysController.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Controllers\\ApiKeysController.cs",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\Controllers\\ApiKeysController.cs",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAYwBoAAABMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T20:30:03.708Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PrintJobLogRepository.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Services\\PrintJobLogRepository.cs",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\Services\\PrintJobLogRepository.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Services\\PrintJobLogRepository.cs",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\Services\\PrintJobLogRepository.cs",
+              "ViewState": "AgIAABoAAAAAAAAAAADwvygAAAA0AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T00:42:32.051Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "ApiKeyEntity.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Models\\ApiKeyEntity.cs",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\Models\\ApiKeyEntity.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Models\\ApiKeyEntity.cs",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\Models\\ApiKeyEntity.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T02:57:32.146Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ApiKey.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Models\\ApiKey.cs",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\Models\\ApiKey.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Models\\ApiKey.cs",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\Models\\ApiKey.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T02:58:50.365Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Program.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Program.cs",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\Program.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Program.cs",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\Program.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAkwEEAAAARAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T20:30:16.079Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "PrintJobRepository.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Services\\PrintJobRepository.cs",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\Services\\PrintJobRepository.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Services\\PrintJobRepository.cs",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\Services\\PrintJobRepository.cs",
+              "ViewState": "AgIAAEgAAAAAAAAAAAAkwHcAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T02:53:37.052Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CloudPrintJobStore.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Services\\CloudPrintJobStore.cs",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\Services\\CloudPrintJobStore.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Services\\CloudPrintJobStore.cs",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\Services\\CloudPrintJobStore.cs",
+              "ViewState": "AgIAABUAAAAAAAAAAAAowEgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T20:30:11.608Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CloudAgentRegistry.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Services\\CloudAgentRegistry.cs",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\Services\\CloudAgentRegistry.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Services\\CloudAgentRegistry.cs",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\Services\\CloudAgentRegistry.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T20:30:13.109Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "CloudPrintJob.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Models\\CloudPrintJob.cs",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\Models\\CloudPrintJob.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Models\\CloudPrintJob.cs",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\Models\\CloudPrintJob.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T00:56:39.33Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "PrintJobsController.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Controllers\\PrintJobsController.cs",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\Controllers\\PrintJobsController.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Controllers\\PrintJobsController.cs",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\Controllers\\PrintJobsController.cs",
+              "ViewState": "AgIAAC4AAAAAAAAAAAAYwFMAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T00:44:36.83Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "JobCompletionDto.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Models\\JobCompletionDto.cs",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\Models\\JobCompletionDto.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Models\\JobCompletionDto.cs",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\Models\\JobCompletionDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T00:45:47.23Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "PrintJobQueue.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\Jobs\\PrintJobQueue.cs",
+              "RelativeDocumentMoniker": "..\\sapaXPrintCore\\Jobs\\PrintJobQueue.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\Jobs\\PrintJobQueue.cs",
+              "RelativeToolTip": "..\\sapaXPrintCore\\Jobs\\PrintJobQueue.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAA3wDkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T02:51:00.754Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "BitmapPrintService.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\Printing\\BitmapPrintService.cs",
+              "RelativeDocumentMoniker": "..\\sapaXPrintCore\\Printing\\BitmapPrintService.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\Printing\\BitmapPrintService.cs",
+              "RelativeToolTip": "..\\sapaXPrintCore\\Printing\\BitmapPrintService.cs",
+              "ViewState": "AgIAACsAAAAAAAAAAAAkwEgAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T02:50:21.581Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "PrintJobWorker.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\Jobs\\PrintJobWorker.cs",
+              "RelativeDocumentMoniker": "..\\sapaXPrintCore\\Jobs\\PrintJobWorker.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\Jobs\\PrintJobWorker.cs",
+              "RelativeToolTip": "..\\sapaXPrintCore\\Jobs\\PrintJobWorker.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAJAAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T00:49:56.749Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "CloudPrintClient.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\Cloud\\CloudPrintClient.cs",
+              "RelativeDocumentMoniker": "..\\sapaXPrintCore\\Cloud\\CloudPrintClient.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\Cloud\\CloudPrintClient.cs",
+              "RelativeToolTip": "..\\sapaXPrintCore\\Cloud\\CloudPrintClient.cs",
+              "ViewState": "AgIAADwAAAAAAAAAAAAkwFkAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T00:49:21.857Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "SpoolerJobMonitor.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\Printing\\SpoolerJobMonitor.cs",
+              "RelativeDocumentMoniker": "..\\sapaXPrintCore\\Printing\\SpoolerJobMonitor.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\Printing\\SpoolerJobMonitor.cs",
+              "RelativeToolTip": "..\\sapaXPrintCore\\Printing\\SpoolerJobMonitor.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAXAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T02:48:14.276Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "MainWindow.Admin.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\MainWindow.Admin.cs",
+              "RelativeDocumentMoniker": "MainWindow.Admin.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\MainWindow.Admin.cs",
+              "RelativeToolTip": "MainWindow.Admin.cs",
+              "ViewState": "AgIAAK4BAAAAAAAAAAAkwMsBAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T22:32:08.263Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "PrintJob.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\Models\\PrintJob.cs",
+              "RelativeDocumentMoniker": "..\\sapaXPrintCore\\Models\\PrintJob.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\Models\\PrintJob.cs",
+              "RelativeToolTip": "..\\sapaXPrintCore\\Models\\PrintJob.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAkwCsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T00:35:28.55Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "AdminDbService.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\AdminDbService.cs",
+              "RelativeDocumentMoniker": "Services\\AdminDbService.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\AdminDbService.cs",
+              "RelativeToolTip": "Services\\AdminDbService.cs",
+              "ViewState": "AgIAANUAAAAAAAAAAAAkwPIAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T22:23:51.366Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "ZebraPrinterService.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\Printing\\ZebraPrinterService.cs",
+              "RelativeDocumentMoniker": "..\\sapaXPrintCore\\Printing\\ZebraPrinterService.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\Printing\\ZebraPrinterService.cs",
+              "RelativeToolTip": "..\\sapaXPrintCore\\Printing\\ZebraPrinterService.cs",
+              "ViewState": "AgIAAJ4AAAAAAAAAAAAkwLsAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-09T00:50:17.341Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "SchemaTemplates.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\SchemaTemplates.cs",
+              "RelativeDocumentMoniker": "Services\\SchemaTemplates.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\SchemaTemplates.cs",
+              "RelativeToolTip": "Services\\SchemaTemplates.cs",
+              "ViewState": "AgIAAIkAAAAAAAAAAAAkwKYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T22:23:24.543Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "UsersService.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\UsersService.cs",
+              "RelativeDocumentMoniker": "Services\\UsersService.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\UsersService.cs",
+              "RelativeToolTip": "Services\\UsersService.cs",
+              "ViewState": "AgIAALcAAAAAAAAAAAAQwOQAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T22:10:04.286Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "AgentsController.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Controllers\\AgentsController.cs",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\Controllers\\AgentsController.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\Controllers\\AgentsController.cs",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\Controllers\\AgentsController.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T20:30:06.226Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "AgentCredentialStore.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\AgentCredentialStore.cs",
+              "RelativeDocumentMoniker": "Services\\AgentCredentialStore.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\AgentCredentialStore.cs",
+              "RelativeToolTip": "Services\\AgentCredentialStore.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T22:22:53.613Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "AppSettings.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\AppSettings.cs",
+              "RelativeDocumentMoniker": "Services\\AppSettings.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\AppSettings.cs",
+              "RelativeToolTip": "Services\\AppSettings.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T20:31:01.579Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "SecureStore.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\SecureStore.cs",
+              "RelativeDocumentMoniker": "Services\\SecureStore.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\SecureStore.cs",
+              "RelativeToolTip": "Services\\SecureStore.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACoAAAABAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T22:22:23.703Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "sapaXPrintMaster.csproj",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\sapaXPrintMaster.csproj",
+              "RelativeDocumentMoniker": "sapaXPrintMaster.csproj",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\sapaXPrintMaster.csproj",
+              "RelativeToolTip": "sapaXPrintMaster.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-10-08T22:19:51.467Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "DbConfig.cs",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\DbConfig.cs",
+              "RelativeDocumentMoniker": "Services\\DbConfig.cs",
+              "ToolTip": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\Services\\DbConfig.cs",
+              "RelativeToolTip": "Services\\DbConfig.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-10-08T22:08:10.729Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\appsettings.json",
+              "RelativeDocumentMoniker": "..\\..\\v1.0.7\\sapaXPrintCloud\\appsettings.json",
+              "ToolTip": "D:\\sapaXPrintingNode\\v1.0.7\\sapaXPrintCloud\\appsettings.json",
+              "RelativeToolTip": "..\\..\\v1.0.7\\sapaXPrintCloud\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2026-10-08T20:29:52.473Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,531 @@
+{
+  "version": 3,
+  "targets": {
+    "net8.0-windows7.0": {
+      "Microsoft.Win32.SystemEvents/10.0.1": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/Microsoft.Win32.SystemEvents.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/Microsoft.Win32.SystemEvents.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net8.0/Microsoft.Win32.SystemEvents.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      },
+      "PdfiumViewer.Core/1.0.4": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/PdfiumViewer.dll": {}
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/PdfiumViewer.dll": {}
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WindowsForms"
+        ],
+        "resource": {
+          "lib/netcoreapp3.1/nl/PdfiumViewer.resources.dll": {
+            "locale": "nl"
+          }
+        }
+      },
+      "PdfSharpCore/1.3.67": {
+        "type": "package",
+        "dependencies": {
+          "SharpZipLib": "1.4.2",
+          "SixLabors.Fonts": "1.0.0-beta17",
+          "SixLabors.ImageSharp": "1.0.4"
+        },
+        "compile": {
+          "lib/net8.0/PdfSharpCore.dll": {}
+        },
+        "runtime": {
+          "lib/net8.0/PdfSharpCore.dll": {}
+        },
+        "resource": {
+          "lib/net8.0/de/PdfSharpCore.resources.dll": {
+            "locale": "de"
+          }
+        }
+      },
+      "SharpZipLib/1.4.2": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/ICSharpCode.SharpZipLib.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/ICSharpCode.SharpZipLib.dll": {
+            "related": ".pdb;.xml"
+          }
+        }
+      },
+      "SixLabors.Fonts/1.0.0-beta17": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/SixLabors.Fonts.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/SixLabors.Fonts.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "SixLabors.ImageSharp/1.0.4": {
+        "type": "package",
+        "compile": {
+          "lib/netcoreapp3.1/SixLabors.ImageSharp.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/netcoreapp3.1/SixLabors.ImageSharp.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "System.CodeDom/10.0.12": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/System.CodeDom.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.CodeDom.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        }
+      },
+      "System.Drawing.Common/10.0.1": {
+        "type": "package",
+        "dependencies": {
+          "Microsoft.Win32.SystemEvents": "10.0.1"
+        },
+        "compile": {
+          "lib/net8.0/System.Drawing.Common.dll": {
+            "related": ".pdb;.xml"
+          },
+          "lib/net8.0/System.Private.Windows.Core.dll": {
+            "related": ".xml"
+          },
+          "lib/net8.0/System.Private.Windows.GdiPlus.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Drawing.Common.dll": {
+            "related": ".pdb;.xml"
+          },
+          "lib/net8.0/System.Private.Windows.Core.dll": {
+            "related": ".xml"
+          },
+          "lib/net8.0/System.Private.Windows.GdiPlus.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        }
+      },
+      "System.Management/10.0.12": {
+        "type": "package",
+        "dependencies": {
+          "System.CodeDom": "10.0.12"
+        },
+        "compile": {
+          "lib/net8.0/System.Management.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/System.Management.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/net8.0/_._": {}
+        },
+        "runtimeTargets": {
+          "runtimes/win/lib/net8.0/System.Management.dll": {
+            "assetType": "runtime",
+            "rid": "win"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Microsoft.Win32.SystemEvents/10.0.1": {
+      "sha512": "trU4LN2C04nj5qnl8HqoX0NJGPCFg9h2f5o+jjp3Xm8c8fQtu6Ga1/fNFMf3AapoHyLP1WlP21XnL2ij/TLKlg==",
+      "type": "package",
+      "path": "microsoft.win32.systemevents/10.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/Microsoft.Win32.SystemEvents.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/Microsoft.Win32.SystemEvents.targets",
+        "lib/net10.0/Microsoft.Win32.SystemEvents.dll",
+        "lib/net10.0/Microsoft.Win32.SystemEvents.xml",
+        "lib/net462/Microsoft.Win32.SystemEvents.dll",
+        "lib/net462/Microsoft.Win32.SystemEvents.xml",
+        "lib/net8.0/Microsoft.Win32.SystemEvents.dll",
+        "lib/net8.0/Microsoft.Win32.SystemEvents.xml",
+        "lib/net9.0/Microsoft.Win32.SystemEvents.dll",
+        "lib/net9.0/Microsoft.Win32.SystemEvents.xml",
+        "lib/netstandard2.0/Microsoft.Win32.SystemEvents.dll",
+        "lib/netstandard2.0/Microsoft.Win32.SystemEvents.xml",
+        "microsoft.win32.systemevents.10.0.1.nupkg.sha512",
+        "microsoft.win32.systemevents.nuspec",
+        "runtimes/win/lib/net10.0/Microsoft.Win32.SystemEvents.dll",
+        "runtimes/win/lib/net10.0/Microsoft.Win32.SystemEvents.xml",
+        "runtimes/win/lib/net8.0/Microsoft.Win32.SystemEvents.dll",
+        "runtimes/win/lib/net8.0/Microsoft.Win32.SystemEvents.xml",
+        "runtimes/win/lib/net9.0/Microsoft.Win32.SystemEvents.dll",
+        "runtimes/win/lib/net9.0/Microsoft.Win32.SystemEvents.xml",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "PdfiumViewer.Core/1.0.4": {
+      "sha512": "4SZb57POygmbgVaiSs/itCcrPiFmaAacBK85a5a2CKIJsoDqfOZSNWBPY1Ntp1/xn6OmfI7vvS9Ix/tCV3mCGA==",
+      "type": "package",
+      "path": "pdfiumviewer.core/1.0.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE",
+        "lib/net20/PdfiumViewer.dll",
+        "lib/net20/nl/PdfiumViewer.resources.dll",
+        "lib/net472/PdfiumViewer.dll",
+        "lib/net472/nl/PdfiumViewer.resources.dll",
+        "lib/netcoreapp3.1/PdfiumViewer.dll",
+        "lib/netcoreapp3.1/nl/PdfiumViewer.resources.dll",
+        "pdfiumviewer.core.1.0.4.nupkg.sha512",
+        "pdfiumviewer.core.nuspec"
+      ]
+    },
+    "PdfSharpCore/1.3.67": {
+      "sha512": "6Cvj9nX6RwIJFIQC8eJFCYYUu9Qa2t9LWh4i0SXFi3hqkX/ssUGKfzp+9JZZXbkp0lHeeH/9UYFHelLqIusPrQ==",
+      "type": "package",
+      "path": "pdfsharpcore/1.3.67",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "lib/net5.0/PdfSharpCore.dll",
+        "lib/net5.0/de/PdfSharpCore.resources.dll",
+        "lib/net6.0/PdfSharpCore.dll",
+        "lib/net6.0/de/PdfSharpCore.resources.dll",
+        "lib/net7.0/PdfSharpCore.dll",
+        "lib/net7.0/de/PdfSharpCore.resources.dll",
+        "lib/net8.0/PdfSharpCore.dll",
+        "lib/net8.0/de/PdfSharpCore.resources.dll",
+        "lib/netcoreapp3.1/PdfSharpCore.dll",
+        "lib/netcoreapp3.1/de/PdfSharpCore.resources.dll",
+        "lib/netstandard2.0/PdfSharpCore.dll",
+        "lib/netstandard2.0/de/PdfSharpCore.resources.dll",
+        "pdfsharpcore.1.3.67.nupkg.sha512",
+        "pdfsharpcore.nuspec"
+      ]
+    },
+    "SharpZipLib/1.4.2": {
+      "sha512": "yjj+3zgz8zgXpiiC3ZdF/iyTBbz2fFvMxZFEBPUcwZjIvXOf37Ylm+K58hqMfIBt5JgU/Z2uoUS67JmTLe973A==",
+      "type": "package",
+      "path": "sharpziplib/1.4.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "images/sharpziplib-nuget-256x256.png",
+        "lib/net6.0/ICSharpCode.SharpZipLib.dll",
+        "lib/net6.0/ICSharpCode.SharpZipLib.pdb",
+        "lib/net6.0/ICSharpCode.SharpZipLib.xml",
+        "lib/netstandard2.0/ICSharpCode.SharpZipLib.dll",
+        "lib/netstandard2.0/ICSharpCode.SharpZipLib.pdb",
+        "lib/netstandard2.0/ICSharpCode.SharpZipLib.xml",
+        "lib/netstandard2.1/ICSharpCode.SharpZipLib.dll",
+        "lib/netstandard2.1/ICSharpCode.SharpZipLib.pdb",
+        "lib/netstandard2.1/ICSharpCode.SharpZipLib.xml",
+        "sharpziplib.1.4.2.nupkg.sha512",
+        "sharpziplib.nuspec"
+      ]
+    },
+    "SixLabors.Fonts/1.0.0-beta17": {
+      "sha512": "qubgVovAoSR7vyv9tJ68gSzRIPWz7HBjTM9rwAaLjpcJ6T50arnX+GHAZcC0r2mVagyRMknCNda3DGoe8StUUQ==",
+      "type": "package",
+      "path": "sixlabors.fonts/1.0.0-beta17",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/netcoreapp3.1/SixLabors.Fonts.dll",
+        "lib/netcoreapp3.1/SixLabors.Fonts.xml",
+        "lib/netstandard2.0/SixLabors.Fonts.dll",
+        "lib/netstandard2.0/SixLabors.Fonts.xml",
+        "lib/netstandard2.1/SixLabors.Fonts.dll",
+        "lib/netstandard2.1/SixLabors.Fonts.xml",
+        "sixlabors.fonts.1.0.0-beta17.nupkg.sha512",
+        "sixlabors.fonts.128.png",
+        "sixlabors.fonts.nuspec"
+      ]
+    },
+    "SixLabors.ImageSharp/1.0.4": {
+      "sha512": "H2rPiEr2ddBOltOuqRYhpLBAsQXDAhbzMMhhuksnBG2oefup1MXMchALe7yYkKJksNbtxbZHKeM6dn/68I75qw==",
+      "type": "package",
+      "path": "sixlabors.imagesharp/1.0.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net472/SixLabors.ImageSharp.dll",
+        "lib/net472/SixLabors.ImageSharp.xml",
+        "lib/netcoreapp2.1/SixLabors.ImageSharp.dll",
+        "lib/netcoreapp2.1/SixLabors.ImageSharp.xml",
+        "lib/netcoreapp3.1/SixLabors.ImageSharp.dll",
+        "lib/netcoreapp3.1/SixLabors.ImageSharp.xml",
+        "lib/netstandard1.3/SixLabors.ImageSharp.dll",
+        "lib/netstandard1.3/SixLabors.ImageSharp.xml",
+        "lib/netstandard2.0/SixLabors.ImageSharp.dll",
+        "lib/netstandard2.0/SixLabors.ImageSharp.xml",
+        "lib/netstandard2.1/SixLabors.ImageSharp.dll",
+        "lib/netstandard2.1/SixLabors.ImageSharp.xml",
+        "sixlabors.imagesharp.1.0.4.nupkg.sha512",
+        "sixlabors.imagesharp.128.png",
+        "sixlabors.imagesharp.nuspec"
+      ]
+    },
+    "System.CodeDom/10.0.12": {
+      "sha512": "Kk3yEavoGHXCAFTLLegxztgSdj24JrkAHelwgWnu+YMFxezcU2DbABEOOIMdy04PExUtKQtlazaKqo0qSa1X6A==",
+      "type": "package",
+      "path": "system.codedom/10.0.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.CodeDom.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.CodeDom.targets",
+        "lib/net10.0/System.CodeDom.dll",
+        "lib/net10.0/System.CodeDom.xml",
+        "lib/net462/System.CodeDom.dll",
+        "lib/net462/System.CodeDom.xml",
+        "lib/net8.0/System.CodeDom.dll",
+        "lib/net8.0/System.CodeDom.xml",
+        "lib/net9.0/System.CodeDom.dll",
+        "lib/net9.0/System.CodeDom.xml",
+        "lib/netstandard2.0/System.CodeDom.dll",
+        "lib/netstandard2.0/System.CodeDom.xml",
+        "system.codedom.10.0.12.nupkg.sha512",
+        "system.codedom.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Drawing.Common/10.0.1": {
+      "sha512": "cmkIduwyVPfuO8kNehu3xNcjo26nMgUoJyfso9S/zTO85YovvPPG0/AFLjanx1iVgQ80OpJVnLb1jU3aIKNLdg==",
+      "type": "package",
+      "path": "system.drawing.common/10.0.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "LICENSE.TXT",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net461/System.Drawing.Common.targets",
+        "buildTransitive/net462/_._",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Drawing.Common.targets",
+        "lib/MonoAndroid10/_._",
+        "lib/MonoTouch10/_._",
+        "lib/net10.0/System.Drawing.Common.dll",
+        "lib/net10.0/System.Drawing.Common.pdb",
+        "lib/net10.0/System.Drawing.Common.xml",
+        "lib/net10.0/System.Private.Windows.Core.dll",
+        "lib/net10.0/System.Private.Windows.Core.xml",
+        "lib/net10.0/System.Private.Windows.GdiPlus.dll",
+        "lib/net10.0/System.Private.Windows.GdiPlus.xml",
+        "lib/net462/System.Drawing.Common.dll",
+        "lib/net462/System.Drawing.Common.pdb",
+        "lib/net462/System.Drawing.Common.xml",
+        "lib/net8.0/System.Drawing.Common.dll",
+        "lib/net8.0/System.Drawing.Common.pdb",
+        "lib/net8.0/System.Drawing.Common.xml",
+        "lib/net8.0/System.Private.Windows.Core.dll",
+        "lib/net8.0/System.Private.Windows.Core.xml",
+        "lib/net8.0/System.Private.Windows.GdiPlus.dll",
+        "lib/net8.0/System.Private.Windows.GdiPlus.xml",
+        "lib/net9.0/System.Drawing.Common.dll",
+        "lib/net9.0/System.Drawing.Common.pdb",
+        "lib/net9.0/System.Drawing.Common.xml",
+        "lib/net9.0/System.Private.Windows.Core.dll",
+        "lib/net9.0/System.Private.Windows.Core.xml",
+        "lib/net9.0/System.Private.Windows.GdiPlus.dll",
+        "lib/net9.0/System.Private.Windows.GdiPlus.xml",
+        "lib/netstandard2.0/System.Drawing.Common.dll",
+        "lib/netstandard2.0/System.Drawing.Common.pdb",
+        "lib/netstandard2.0/System.Drawing.Common.xml",
+        "lib/xamarinios10/_._",
+        "lib/xamarinmac20/_._",
+        "lib/xamarintvos10/_._",
+        "lib/xamarinwatchos10/_._",
+        "system.drawing.common.10.0.1.nupkg.sha512",
+        "system.drawing.common.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    },
+    "System.Management/10.0.12": {
+      "sha512": "ApUsYmsNG8aPiMxsO6ROGZnqJwSZY8zeMlAQcuQg+ilPFUcIyBUC0BL8qA6wmPLNVsvL4nyhUrhhxh6qn0cx0Q==",
+      "type": "package",
+      "path": "system.management/10.0.12",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "Icon.png",
+        "PACKAGE.md",
+        "THIRD-PARTY-NOTICES.TXT",
+        "buildTransitive/net8.0/_._",
+        "buildTransitive/netcoreapp2.0/System.Management.targets",
+        "lib/net10.0/System.Management.dll",
+        "lib/net10.0/System.Management.xml",
+        "lib/net462/_._",
+        "lib/net8.0/System.Management.dll",
+        "lib/net8.0/System.Management.xml",
+        "lib/net9.0/System.Management.dll",
+        "lib/net9.0/System.Management.xml",
+        "lib/netstandard2.0/System.Management.dll",
+        "lib/netstandard2.0/System.Management.xml",
+        "runtimes/win/lib/net10.0/System.Management.dll",
+        "runtimes/win/lib/net10.0/System.Management.xml",
+        "runtimes/win/lib/net8.0/System.Management.dll",
+        "runtimes/win/lib/net8.0/System.Management.xml",
+        "runtimes/win/lib/net9.0/System.Management.dll",
+        "runtimes/win/lib/net9.0/System.Management.xml",
+        "system.management.10.0.12.nupkg.sha512",
+        "system.management.nuspec",
+        "useSharedDesignerContext.txt"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net8.0-windows7.0": [
+      "PdfSharpCore >= 1.3.67",
+      "PdfiumViewer.Core >= 1.0.4",
+      "System.Drawing.Common >= 10.0.1",
+      "System.Management >= 10.0.12"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\dev\\.nuget\\packages\\": {},
+    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\sapaXPrintCore.csproj",
+      "projectName": "sapaXPrintCore",
+      "projectPath": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\sapaXPrintCore.csproj",
+      "packagesPath": "C:\\Users\\dev\\.nuget\\packages\\",
+      "outputPath": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\obj\\",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+      ],
+      "configFilePaths": [
+        "C:\\Users\\dev\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net8.0-windows"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net8.0-windows7.0": {
+          "targetAlias": "net8.0-windows",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
+      },
+      "SdkAnalysisLevel": "9.0.300"
+    },
+    "frameworks": {
+      "net8.0-windows7.0": {
+        "targetAlias": "net8.0-windows",
+        "dependencies": {
+          "PdfSharpCore": {
+            "target": "Package",
+            "version": "[1.3.67, )"
+          },
+          "PdfiumViewer.Core": {
+            "target": "Package",
+            "version": "[1.0.4, )"
+          },
+          "System.Drawing.Common": {
+            "target": "Package",
+            "version": "[10.0.1, )"
+          },
+          "System.Management": {
+            "target": "Package",
+            "version": "[10.0.12, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          },
+          "Microsoft.WindowsDesktop.App": {
+            "privateAssets": "none"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.315/PortableRuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

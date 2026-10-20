@@ -1,0 +1,240 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "sapaX Print Cloud API",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/keys/powerapps": {
+      "post": {
+        "tags": [
+          "ApiKeys"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/keys/agent": {
+      "post": {
+        "tags": [
+          "ApiKeys"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "tags": [
+          "Health"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/print-jobs": {
+      "post": {
+        "tags": [
+          "PrintJobs"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloudPrintJob"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloudPrintJob"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CloudPrintJob"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/print-jobs/next": {
+      "get": {
+        "tags": [
+          "PrintJobs"
+        ],
+        "parameters": [
+          {
+            "name": "X-Agent-Id",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/print-jobs/{id}/complete": {
+      "post": {
+        "tags": [
+          "PrintJobs"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobCompletionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobCompletionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/JobCompletionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CloudPrintJob": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "printerId": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileName": {
+            "type": "string",
+            "nullable": true
+          },
+          "fileBase64": {
+            "type": "string",
+            "nullable": true
+          },
+          "zpl": {
+            "type": "string",
+            "nullable": true
+          },
+          "status": {
+            "$ref": "#/components/schemas/CloudPrintJobStatus"
+          },
+          "createdAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "claimedByAgentId": {
+            "type": "string",
+            "nullable": true
+          },
+          "claimedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "completedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "errorMessage": {
+            "type": "string",
+            "nullable": true
+          },
+          "retryCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "lockedUntil": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CloudPrintJobStatus": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "JobCompletionDto": {
+        "type": "object",
+        "properties": {
+          "success": {
+            "type": "boolean"
+          },
+          "error": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "ApiKey": {
+        "type": "apiKey",
+        "description": "API Key via X-API-KEY",
+        "name": "X-API-KEY",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "ApiKey": [ ]
+    }
+  ]
+}
