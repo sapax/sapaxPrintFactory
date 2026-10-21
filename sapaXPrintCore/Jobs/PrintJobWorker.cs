@@ -1,5 +1,4 @@
-﻿using sapaXPrintCore.Cloud;
-using sapaXPrintCore.Models;
+﻿using sapaXPrintCore.Models;
 using sapaXPrintCore.Printers;
 using sapaXPrintCore.Printing;
 using System;
@@ -14,10 +13,10 @@ namespace sapaXPrintCore.Jobs
         private static bool _started;
 
         /// <summary>
-        /// Set by the Master's CloudAgentPoller. Used to report job results to the cloud
-        /// (correct URL, agent id and API key).
+        /// Set by DbJobPoller.Start(). Writes the final result (Completed / Failed) of a PDF job
+        /// back to dbo.PrintJobs.
         /// </summary>
-        public static CloudPrintClient? CloudClient { get; set; }
+        public static Func<PrintJob, bool, string?, Task>? ResultReporter { get; set; }
 
         public static void Start()
         {
@@ -50,7 +49,7 @@ namespace sapaXPrintCore.Jobs
                     try
                     {
                         job.Status = PrintJobStatus.Printing;
-                        Debug.WriteLine($"PRINTING JOB: {job.JobId} -> {job.PrinterName}");
+                        Debug.WriteLine($"PRINTING JOB: {job.JobId} -> {job.PrinterId}");
 
                         // 1. Is the printer able to print RIGHT NOW? (fresh status, not the one from when the job arrived)
                         var printer = PrinterDiscoveryService.GetPrinterById(job.PrinterId)
@@ -84,7 +83,7 @@ namespace sapaXPrintCore.Jobs
                         Debug.WriteLine($"JOB FAILED: {job.JobId}");
                         Debug.WriteLine(ex);
 
-                        NotifyCloudResult(job, false, ex.Message);
+                        NotifyResult(job, false, ex.Message);
                     }
                 }
             }
@@ -103,42 +102,35 @@ namespace sapaXPrintCore.Jobs
                 {
                     job.Status = PrintJobStatus.Completed;
                     Debug.WriteLine($"JOB COMPLETED (confirmed): {job.JobId} - {result.Message}");
-                    NotifyCloudResult(job, true, null);
+                    NotifyResult(job, true, null);
                 }
                 else
                 {
                     job.Status = PrintJobStatus.Failed;
                     job.LastError = result.Message;
                     Debug.WriteLine($"JOB FAILED (not delivered): {job.JobId} - {result.Message}");
-                    NotifyCloudResult(job, false, result.Message);
+                    NotifyResult(job, false, result.Message);
                 }
             }
             catch (Exception ex)
             {
                 job.Status = PrintJobStatus.Failed;
                 job.LastError = ex.Message;
-                NotifyCloudResult(job, false, ex.Message);
+                NotifyResult(job, false, ex.Message);
             }
         }
 
         // Runs on a background thread (not the UI thread), so blocking here is safe.
-        private static void NotifyCloudResult(PrintJob job, bool success, string? error)
+        private static void NotifyResult(PrintJob job, bool success, string? error)
         {
             try
             {
-                CloudClient?.MarkCompleted(
-                    job.CloudJobId,
-                    success,
-                    error,
-                    job.PrinterName,
-                    job.PrinterStatus,
-                    job.SpoolerJobId,
-                    job.SpoolerStatus).GetAwaiter().GetResult();
+                ResultReporter?.Invoke(job, success, error).GetAwaiter().GetResult();
             }
             catch (Exception ex)
             {
-                // Never crash the agent if the cloud is unavailable
-                Debug.WriteLine("Could not notify cloud: " + ex.Message);
+                // Never crash the agent if the database is unavailable
+                Debug.WriteLine("Could not save job result to the database: " + ex.Message);
             }
         }
     }

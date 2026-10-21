@@ -9,7 +9,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sapaXPrintService", "..\sap
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sapaXPrintCore", "..\sapaXPrintCore\sapaXPrintCore.csproj", "{A1BB533A-9F33-4F6F-B338-BCE33790B643}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "sapaXPrintCloud", "..\..\v1.0.7\sapaXPrintCloud\sapaXPrintCloud.csproj", "{68943447-E17B-202F-3FA6-F4362ECF6F22}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FakeZebraPrinter", "..\FakeZebraPrinter\FakeZebraPrinter.csproj", "{42734D13-9CFF-4F2C-950C-47DBBAEE4C88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,18 +57,18 @@ Global
 		{A1BB533A-9F33-4F6F-B338-BCE33790B643}.Release|x64.Build.0 = Release|x64
 		{A1BB533A-9F33-4F6F-B338-BCE33790B643}.Release|x86.ActiveCfg = Release|Any CPU
 		{A1BB533A-9F33-4F6F-B338-BCE33790B643}.Release|x86.Build.0 = Release|Any CPU
-		{68943447-E17B-202F-3FA6-F4362ECF6F22}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{68943447-E17B-202F-3FA6-F4362ECF6F22}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{68943447-E17B-202F-3FA6-F4362ECF6F22}.Debug|x64.ActiveCfg = Debug|x64
-		{68943447-E17B-202F-3FA6-F4362ECF6F22}.Debug|x64.Build.0 = Debug|x64
-		{68943447-E17B-202F-3FA6-F4362ECF6F22}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{68943447-E17B-202F-3FA6-F4362ECF6F22}.Debug|x86.Build.0 = Debug|Any CPU
-		{68943447-E17B-202F-3FA6-F4362ECF6F22}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{68943447-E17B-202F-3FA6-F4362ECF6F22}.Release|Any CPU.Build.0 = Release|Any CPU
-		{68943447-E17B-202F-3FA6-F4362ECF6F22}.Release|x64.ActiveCfg = Release|x64
-		{68943447-E17B-202F-3FA6-F4362ECF6F22}.Release|x64.Build.0 = Release|x64
-		{68943447-E17B-202F-3FA6-F4362ECF6F22}.Release|x86.ActiveCfg = Release|Any CPU
-		{68943447-E17B-202F-3FA6-F4362ECF6F22}.Release|x86.Build.0 = Release|Any CPU
+		{42734D13-9CFF-4F2C-950C-47DBBAEE4C88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42734D13-9CFF-4F2C-950C-47DBBAEE4C88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42734D13-9CFF-4F2C-950C-47DBBAEE4C88}.Debug|x64.ActiveCfg = Debug|x64
+		{42734D13-9CFF-4F2C-950C-47DBBAEE4C88}.Debug|x64.Build.0 = Debug|x64
+		{42734D13-9CFF-4F2C-950C-47DBBAEE4C88}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{42734D13-9CFF-4F2C-950C-47DBBAEE4C88}.Debug|x86.Build.0 = Debug|Any CPU
+		{42734D13-9CFF-4F2C-950C-47DBBAEE4C88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42734D13-9CFF-4F2C-950C-47DBBAEE4C88}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42734D13-9CFF-4F2C-950C-47DBBAEE4C88}.Release|x64.ActiveCfg = Release|x64
+		{42734D13-9CFF-4F2C-950C-47DBBAEE4C88}.Release|x64.Build.0 = Release|x64
+		{42734D13-9CFF-4F2C-950C-47DBBAEE4C88}.Release|x86.ActiveCfg = Release|Any CPU
+		{42734D13-9CFF-4F2C-950C-47DBBAEE4C88}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

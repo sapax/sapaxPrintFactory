@@ -1,40 +1,84 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Threading.Tasks;
 using System.Windows.Threading;
-using sapaXPrintMaster.Services;
+using sapaXPrintCore.Data;
 using sapaXPrintCore.Models;
-using sapaXPrintCore.Jobs;
+using sapaXPrintMaster.Services;
 
 namespace sapaXPrintMaster.ViewModels
 {
-    public class JobQueueViewModel
+    // Jobs tab: reads dbo.PrintJobs (all sources: Manual, Power Automate, Power Apps, Web Form ...)
+    public class JobQueueViewModel : INotifyPropertyChanged
     {
-        public ObservableCollection<PrintJob> Jobs { get; } = new();
-
+        private readonly PrintJobRepository _repo;
         private readonly DispatcherTimer _timer;
+        private bool _busy;
+        private string _statusText = "Loading...";
+
+        public ObservableCollection<DbPrintJobRow> Jobs { get; } = new();
+
+        public string StatusText
+        {
+            get => _statusText;
+            private set
+            {
+                if (_statusText == value) return;
+                _statusText = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        private void OnPropertyChanged([CallerMemberName] string? name = null) =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
 
         public JobQueueViewModel()
         {
-            _timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromMilliseconds(500)
-            };
+            _repo = new PrintJobRepository(() => DbConfig.IsConfigured ? DbConfig.ConnectionString : null);
 
-            _timer.Tick += (_, _) => Refresh();
+            _timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(2) };
+            _timer.Tick += async (_, _) => await RefreshAsync();
             _timer.Start();
+
+            _ = RefreshAsync();
         }
 
-        private void Refresh()
+        private async Task RefreshAsync()
         {
-            var jobs = PrintJobQueue.GetAllJobs();
+            if (_busy) return;
+            _busy = true;
 
-            Jobs.Clear();
-            foreach (var job in jobs)
-                Jobs.Add(job);
+            try
+            {
+                if (!DbConfig.IsConfigured)
+                {
+                    Jobs.Clear();
+                    StatusText = "Database is not configured. Open the Administrator tab.";
+                    return;
+                }
+
+                var rows = await _repo.GetRecentJobsAsync(200);
+
+                Jobs.Clear();
+                foreach (var row in rows)
+                    Jobs.Add(row);
+
+                StatusText = rows.Count == 0
+                    ? "No jobs yet."
+                    : $"{rows.Count} job(s), newest first. Refreshes every 2 seconds.";
+            }
+            catch (Exception ex)
+            {
+                StatusText = "Could not read jobs: " + AdminDbService.FriendlyError(ex);
+            }
+            finally
+            {
+                _busy = false;
+            }
         }
     }
 }

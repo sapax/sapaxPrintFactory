@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("sapaXPrintMaster")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a70c225e035603e1743104ee95f13daa95feaee")]
 [assembly: System.Reflection.AssemblyProductAttribute("sapaXPrintMaster")]
 [assembly: System.Reflection.AssemblyTitleAttribute("sapaXPrintMaster")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

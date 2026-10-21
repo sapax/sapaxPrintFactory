@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
+﻿using Microsoft.Data.SqlClient;
+using sapaXPrintCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.IO;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Threading.Tasks;
 
 namespace sapaXPrintMaster.Services
@@ -32,6 +28,28 @@ namespace sapaXPrintMaster.Services
         public string SubAreaID { get; set; } = "";
         public string SubAreaName { get; set; } = "";
         public string Display => $"{SubAreaName} ({SubAreaID})";
+    }
+
+    public class ComputerRow
+    {
+        public string ComputerID { get; set; } = "";
+        public string ComputerName { get; set; } = "";
+        public string Display => string.IsNullOrEmpty(ComputerID)
+            ? ComputerName
+            : $"{ComputerName} ({ComputerID})";
+    }
+
+    public class RegisteredPrinterRow
+    {
+        public string ComputerID { get; set; } = "";
+        public string ComputerName { get; set; } = "";
+        public string CompanyName { get; set; } = "";
+        public string SubAreaName { get; set; } = "";
+        public string PrinterID { get; set; } = "";
+        public string PrinterName { get; set; } = "";
+        public string Status { get; set; } = "";
+        public bool Active { get; set; }
+        public DateTime? LastSeenAt { get; set; }
     }
 
     public static class AdminDbService
@@ -65,7 +83,17 @@ namespace sapaXPrintMaster.Services
             return r != null && r != DBNull.Value;
         }
 
-        /// <returns>true if created, false if it already existed</returns>
+        public static async Task<List<string>> GetMissingTableNamesAsync()
+        {
+            var missing = new List<string>();
+            using var c = await OpenAsync();
+            foreach (var t in SchemaTemplates.All)
+                if (!await TableExistsAsync(c, t.Name))
+                    missing.Add(t.Name);
+            return missing;
+        }
+
+        /// <returns>true if created, false if it already existed (then it is upgraded)</returns>
         public static async Task<bool> CreateTableAsync(string name)
         {
             var t = SchemaTemplates.Get(name);
@@ -73,7 +101,6 @@ namespace sapaXPrintMaster.Services
 
             if (await TableExistsAsync(c, name))
             {
-                // Table already there: bring it up to date (adds missing columns / indexes, idempotent)
                 await ApplyUpgradeAsync(c, t);
                 return false;
             }
@@ -165,79 +192,182 @@ namespace sapaXPrintMaster.Services
             await cmd.ExecuteNonQueryAsync();
         }
 
-        // ---------------- register computer (= agent) + API key ----------------
-        /// <summary>
-        /// Upserts the computer row and makes sure it has an active API key.
-        /// Returns the RAW key only when a new key was created (the DB only keeps its hash).
-        /// </summary>
-        public static async Task<string?> RegisterComputerAsync(
-            string computerId, string agentName, string companyId, string subAreaId, bool regenerateKey)
+        // ---------------- agent: computer + its printers ----------------
+        public static async Task<bool> IsComputerRegisteredAsync(string computerId)
         {
             using var c = await OpenAsync();
+            if (!await TableExistsAsync(c, "Computers")) return false;
+
+            using var cmd = new SqlCommand(
+                "SELECT COUNT(1) FROM dbo.Computers WHERE ComputerID=@cid AND Active=1", c);
+            cmd.Parameters.AddWithValue("@cid", computerId);
+            return Convert.ToInt32(await cmd.ExecuteScalarAsync()) > 0;
+        }
+
+        /// <summary>
+        /// Registers this computer and the selected printers. Printers of this computer that are not
+        /// selected become inactive. Runs in one transaction.
+        /// </summary>
+        public static async Task RegisterComputerAsync(
+            string computerId, string agentName, string companyId, string subAreaId, IEnumerable<PrinterInfo> printers)
+        {
+            var list = printers.ToList();
+
+            using var c = await OpenAsync();
             using var tx = c.BeginTransaction();
-
-            Guid? keyId = null;
-            using (var cmd = new SqlCommand(@"
-                SELECT TOP 1 ApiKeyId FROM dbo.ApiKeys
-                WHERE OwnerType='agent' AND OwnerId=@o AND IsActive=1 ORDER BY CreatedAt DESC", c, tx))
-            {
-                cmd.Parameters.AddWithValue("@o", computerId);
-                keyId = await cmd.ExecuteScalarAsync() as Guid?;
-            }
-
-            string? raw = null;
-            if (regenerateKey || keyId == null)
-            {
-                if (keyId != null)
-                {
-                    using var off = new SqlCommand(
-                        "UPDATE dbo.ApiKeys SET IsActive=0 WHERE OwnerType='agent' AND OwnerId=@o", c, tx);
-                    off.Parameters.AddWithValue("@o", computerId);
-                    await off.ExecuteNonQueryAsync();
-                }
-
-                raw = "agent_live_" + Convert.ToHexString(RandomNumberGenerator.GetBytes(32)).ToLowerInvariant();
-                keyId = Guid.NewGuid();
-
-                using var ins = new SqlCommand(@"
-                    INSERT INTO dbo.ApiKeys (ApiKeyId, KeyPrefix, KeyHash, OwnerType, OwnerId, IsActive, CreatedAt)
-                    VALUES (@id,@p,@h,'agent',@o,1,SYSUTCDATETIME())", c, tx);
-                ins.Parameters.AddWithValue("@id", keyId.Value);
-                ins.Parameters.AddWithValue("@p", raw[..16]);
-                ins.Parameters.Add("@h", SqlDbType.VarBinary, 32).Value = SHA256.HashData(Encoding.UTF8.GetBytes(raw));
-                ins.Parameters.AddWithValue("@o", computerId);
-                await ins.ExecuteNonQueryAsync();
-            }
-
-            // link to the activation key used on this machine (if any)
-            int? activationId = null;
-            var local = ActivationService.LoadLocal();
-            if (local != null)
-            {
-                using var a = new SqlCommand("SELECT Id FROM dbo.ActivationKeys WHERE ActivationKey=@k", c, tx);
-                a.Parameters.AddWithValue("@k", local.ActivationKey);
-                activationId = await a.ExecuteScalarAsync() as int?;
-            }
 
             using (var m = new SqlCommand(@"
                 MERGE dbo.Computers AS t
                 USING (SELECT @cid AS ComputerID) AS s ON t.ComputerID = s.ComputerID
-                WHEN MATCHED THEN UPDATE SET ComputerName=@name, CompanyID=@co, SubAreaID=@sa,
-                     ApiKeyId=@key, ActivationKeyId=COALESCE(@act, t.ActivationKeyId), Active=1
-                WHEN NOT MATCHED THEN INSERT (ComputerID, ComputerName, CompanyID, SubAreaID, ApiKeyId, ActivationKeyId)
-                     VALUES (@cid,@name,@co,@sa,@key,@act);", c, tx))
+                WHEN MATCHED THEN UPDATE SET ComputerName=@name, CompanyID=@co, SubAreaID=@sa, Active=1
+                WHEN NOT MATCHED THEN INSERT (ComputerID, ComputerName, CompanyID, SubAreaID)
+                     VALUES (@cid, @name, @co, @sa);", c, tx))
             {
                 m.Parameters.AddWithValue("@cid", computerId);
                 m.Parameters.AddWithValue("@name", agentName);
                 m.Parameters.AddWithValue("@co", companyId);
                 m.Parameters.AddWithValue("@sa", subAreaId);
-                m.Parameters.AddWithValue("@key", keyId!.Value);
-                m.Parameters.AddWithValue("@act", (object?)activationId ?? DBNull.Value);
                 await m.ExecuteNonQueryAsync();
             }
 
+            // Deactivate every printer of this computer, then activate the selected ones
+            using (var off = new SqlCommand("UPDATE dbo.Printers SET Active=0 WHERE ComputerID=@cid", c, tx))
+            {
+                off.Parameters.AddWithValue("@cid", computerId);
+                await off.ExecuteNonQueryAsync();
+            }
+
+            foreach (var p in list)
+            {
+                using var pm = new SqlCommand(@"
+                    MERGE dbo.Printers AS t
+                    USING (SELECT @cid AS ComputerID, @pid AS PrinterID) AS s
+                       ON t.ComputerID = s.ComputerID AND t.PrinterID = s.PrinterID
+                    WHEN MATCHED THEN UPDATE SET PrinterName=@pname, Active=1, LastSeenAt=SYSUTCDATETIME()
+                    WHEN NOT MATCHED THEN INSERT (ComputerID, PrinterID, PrinterName, Active, LastSeenAt)
+                         VALUES (@cid, @pid, @pname, 1, SYSUTCDATETIME());", c, tx);
+                pm.Parameters.AddWithValue("@cid", computerId);
+                pm.Parameters.AddWithValue("@pid", p.PrinterId);
+                pm.Parameters.AddWithValue("@pname", p.PrinterName);
+                await pm.ExecuteNonQueryAsync();
+            }
+
             tx.Commit();
-            return raw;
+        }
+        // ---------------- registered computers and printers (view) ----------------
+        public static async Task<List<ComputerRow>> GetComputersAsync()
+        {
+            var list = new List<ComputerRow>();
+            using var c = await OpenAsync();
+            if (!await TableExistsAsync(c, "Computers")) return list;
+
+            using var cmd = new SqlCommand(
+                "SELECT ComputerID, ComputerName FROM dbo.Computers ORDER BY ComputerName", c);
+            using var r = await cmd.ExecuteReaderAsync();
+            while (await r.ReadAsync())
+                list.Add(new ComputerRow
+                {
+                    ComputerID = r.GetString(0),
+                    ComputerName = r.IsDBNull(1) ? "" : r.GetString(1)
+                });
+            return list;
+        }
+
+        /// <param name="computerId">null = all computers</param>
+        public static async Task<List<RegisteredPrinterRow>> GetRegisteredPrintersAsync(string? computerId)
+        {
+            var list = new List<RegisteredPrinterRow>();
+            using var c = await OpenAsync();
+            if (!await TableExistsAsync(c, "Computers") || !await TableExistsAsync(c, "Printers"))
+                return list;
+
+            using var cmd = new SqlCommand(@"
+        SELECT c.ComputerID, c.ComputerName, co.CompanyName, sa.SubAreaName,
+               p.PrinterID, p.PrinterName, p.Status, p.Active, p.LastSeenAt
+        FROM dbo.Printers p
+        JOIN dbo.Computers c       ON c.ComputerID = p.ComputerID
+        LEFT JOIN dbo.Companies co ON co.CompanyID = c.CompanyID
+        LEFT JOIN dbo.SubAreas sa  ON sa.CompanyID = c.CompanyID AND sa.SubAreaID = c.SubAreaID
+        WHERE (@cid IS NULL OR c.ComputerID = @cid)
+        ORDER BY c.ComputerName, p.PrinterName;", c);
+
+            cmd.Parameters.Add("@cid", SqlDbType.NVarChar, 100).Value = (object?)computerId ?? DBNull.Value;
+
+            using var r = await cmd.ExecuteReaderAsync();
+            while (await r.ReadAsync())
+            {
+                list.Add(new RegisteredPrinterRow
+                {
+                    ComputerID = r.GetString(0),
+                    ComputerName = r.IsDBNull(1) ? "" : r.GetString(1),
+                    CompanyName = r.IsDBNull(2) ? "" : r.GetString(2),
+                    SubAreaName = r.IsDBNull(3) ? "" : r.GetString(3),
+                    PrinterID = r.GetString(4),
+                    PrinterName = r.IsDBNull(5) ? "" : r.GetString(5),
+                    Status = r.IsDBNull(6) ? "" : r.GetString(6),
+                    Active = r.GetBoolean(7),
+                    LastSeenAt = r.IsDBNull(8) ? null : r.GetDateTime(8)
+                });
+            }
+            return list;
+        }
+        // ---------------- print queue (Manual source) ----------------
+        /// <summary>
+        /// Adds a PDF to dbo.PrintJobs. The agent for the printer claims it and prints it.
+        /// </summary>
+        public static async Task<Guid> EnqueuePdfJobAsync(
+            string printerId, string fileName, string filePath, string source, string requestedBy)
+        {
+            byte[] bytes = await File.ReadAllBytesAsync(filePath);
+
+            using var c = await OpenAsync();
+
+            using (var check = new SqlCommand(
+                "SELECT COUNT(1) FROM dbo.Printers WHERE PrinterID=@p AND Active=1", c))
+            {
+                check.Parameters.AddWithValue("@p", printerId);
+                if (Convert.ToInt32(await check.ExecuteScalarAsync()) == 0)
+                    throw new InvalidOperationException(
+                        "This printer is not registered to an agent. A SuperAdmin must register the computer and its printers in the Administrator tab.");
+            }
+
+            var jobId = Guid.NewGuid();
+            using var cmd = new SqlCommand(@"
+                INSERT INTO dbo.PrintJobs (JobId, JobType, PrinterID, FileName, Payload, Source, RequestedBy, Status)
+                VALUES (@id, 'PDF', @p, @f, @payload, @src, @by, 'Queued');", c);
+
+            cmd.Parameters.AddWithValue("@id", jobId);
+            cmd.Parameters.AddWithValue("@p", printerId);
+            cmd.Parameters.AddWithValue("@f", fileName);
+            cmd.Parameters.Add("@payload", SqlDbType.NVarChar, -1).Value = Convert.ToBase64String(bytes);
+            cmd.Parameters.AddWithValue("@src", source);
+            cmd.Parameters.AddWithValue("@by", requestedBy);
+
+            await cmd.ExecuteNonQueryAsync();
+            return jobId;
+        }
+
+        // ---------------- readable errors (no long SQL text in the UI) ----------------
+        public static string FriendlyError(Exception ex)
+        {
+            if (ex is SqlException se)
+            {
+                switch (se.Number)
+                {
+                    case 18456:
+                        return "Sign-in to the database failed. Check the database user name and password.";
+                    case 40615:
+                        return "This PC's IP address is not allowed by the database firewall. Add it in the Azure SQL server firewall rules.";
+                    case 4060:
+                        return "The database name was not found on this server.";
+                }
+            }
+
+            if (ex.Message.Contains("Timeout", StringComparison.OrdinalIgnoreCase))
+                return "The database did not respond in time. Check the server name and the firewall rule for this PC's IP, then try again.";
+
+            string first = ex.Message.Split('\n')[0].Trim();
+            return first.Length > 200 ? first[..200] + "..." : first;
         }
     }
 }

@@ -6,10 +6,10 @@ using System.Windows;
 using System.Windows.Forms;
 using System.IO;
 using sapaXPrintMaster.Services;
-using sapaXPrintCore.Cloud;
 using sapaXPrintCore.Jobs;
 using sapaXPrintCore.Models;
 using sapaXPrintCore.Printing;
+using sapaXPrintCore.Printers;
 
 using Application = System.Windows.Application;
 
@@ -28,7 +28,6 @@ namespace sapaXPrintMaster
 
         protected override void OnStartup(StartupEventArgs e)
         {
-
             var exeDir = AppDomain.CurrentDomain.BaseDirectory;
             var nativeDir = Path.Combine(exeDir, "native", "x64");
 
@@ -40,68 +39,33 @@ namespace sapaXPrintMaster
                 EnvironmentVariableTarget.Process
             );
 
-            // DEV ONLY
-            ServicePointManager.ServerCertificateValidationCallback +=
-                (_, _, _, _) => true;
-
             ZebraPrinterService.DryRun = false;
 
             // =========================
             // WORKERS
             // =========================
+            // 1. prints PDF jobs that were queued locally
             PrintJobWorker.Start();
-            CloudAgentPoller.Start();
-            //StartDevCloudPolling();
+
+            // 2. every N seconds (Administrator tab) claims jobs straight from the SQL database
+            DbJobPoller.Start(
+                connectionString: () => DbConfig.IsConfigured ? DbConfig.ConnectionString : null,
+                computerId: () => AppSettings.AgentId,
+                intervalSeconds: () => AppSettings.PollIntervalSeconds,
+                printerProvider: () =>
+                {
+                    // only publish printers that are ticked "Active" in the Printers tab
+                    var printers = PrinterDiscoveryService.GetPrinters(checkNetworkReachability: false);
+                    PrinterPreferenceService.MergePreferences(printers);
+                    return printers.Where(p => p.IsActive).ToList();
+                });
+
             base.OnStartup(e);
 
             _mainWindow = new MainWindow();
             _mainWindow.Hide();
 
             InitTray();
-        }
-
-
-
-        // ======================================================
-        // DEV CLOUD POLLING (PrintNode-style agent loop)
-        // ======================================================
-        private void StartDevCloudPolling()
-        {
-            var cloudUrl = "https://sapaxprintmaster-dnb6edbdb8g4hydn.canadacentral-01.azurewebsites.net";
-
-            var cloudClient = new CloudPrintClient(
-                cloudUrl,
-                AppSettings.AgentId,
-                AppSettings.AgentApiKey
-            );
-
-            Task.Run(async () =>
-            {
-                while (true)
-                {
-                    try
-                    {
-                        var job = await cloudClient.FetchNextJobAsync();
-
-                        if (job != null)
-                        {
-                            PrintJobProcessor.Process(new PrintRequest
-                            {
-                                PrinterId = job.PrinterId,
-                                FileName = job.FileName,
-                                FileBase64 = job.FileBase64
-                            });
-                        }
-                    }
-                    catch (Exception ex)
-                    {
-                        System.Diagnostics.Debug.WriteLine("[CLOUD POLL ERROR]");
-                        System.Diagnostics.Debug.WriteLine(ex);
-                    }
-
-                    await Task.Delay(2000);
-                }
-            });
         }
 
         // ======================================================

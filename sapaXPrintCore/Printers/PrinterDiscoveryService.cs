@@ -35,7 +35,7 @@ namespace sapaXPrintCore.Printers
             public int Port { get; set; } = 9100;
         }
 
-        public static List<PrinterInfo> GetPrinters(bool checkNetworkReachability = true)
+        public static List<PrinterInfo> GetPrinters(bool checkNetworkReachability = false)
         {
             var printers = new List<PrinterInfo>();
 
@@ -127,7 +127,7 @@ namespace sapaXPrintCore.Printers
             if (string.IsNullOrWhiteSpace(printerId))
                 return null;
 
-            return GetPrinters()
+            return GetPrinters(checkNetworkReachability: false)
                 .FirstOrDefault(p => p.PrinterId == printerId);
         }
 

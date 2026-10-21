@@ -1,13 +1,13 @@
 {
   "version": 2,
-  "dgSpecHash": "VrEWh+1RZ6s=",
+  "dgSpecHash": "yADQtSj9ujE=",
   "success": true,
-  "projectFilePath": "D:\\sapaXPrintingNode\\v6\\sapaXPrintMaster\\sapaXPrintMaster.csproj",
+  "projectFilePath": "F:\\sapaxFactory\\PrintMaster\\sapaXPrintMaster\\sapaXPrintMaster.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\dev\\.nuget\\packages\\microsoft.bcl.cryptography\\8.0.0\\microsoft.bcl.cryptography.8.0.0.nupkg.sha512",
-    "C:\\Users\\dev\\.nuget\\packages\\microsoft.data.sqlclient\\7.1.0\\microsoft.data.sqlclient.7.1.0.nupkg.sha512",
-    "C:\\Users\\dev\\.nuget\\packages\\microsoft.data.sqlclient.extensions.abstractions\\7.1.0\\microsoft.data.sqlclient.extensions.abstractions.7.1.0.nupkg.sha512",
-    "C:\\Users\\dev\\.nuget\\packages\\microsoft.data.sqlclient.internal.logging\\7.1.0\\microsoft.data.sqlclient.internal.logging.7.1.0.nupkg.sha512",
+    "C:\\Users\\dev\\.nuget\\packages\\microsoft.data.sqlclient\\7.1.1\\microsoft.data.sqlclient.7.1.1.nupkg.sha512",
+    "C:\\Users\\dev\\.nuget\\packages\\microsoft.data.sqlclient.extensions.abstractions\\7.1.1\\microsoft.data.sqlclient.extensions.abstractions.7.1.1.nupkg.sha512",
+    "C:\\Users\\dev\\.nuget\\packages\\microsoft.data.sqlclient.internal.logging\\7.1.1\\microsoft.data.sqlclient.internal.logging.7.1.1.nupkg.sha512",
     "C:\\Users\\dev\\.nuget\\packages\\microsoft.data.sqlclient.sni.runtime\\7.1.0\\microsoft.data.sqlclient.sni.runtime.7.1.0.nupkg.sha512",
     "C:\\Users\\dev\\.nuget\\packages\\microsoft.extensions.caching.abstractions\\8.0.0\\microsoft.extensions.caching.abstractions.8.0.0.nupkg.sha512",
     "C:\\Users\\dev\\.nuget\\packages\\microsoft.extensions.caching.memory\\8.0.1\\microsoft.extensions.caching.memory.8.0.1.nupkg.sha512",

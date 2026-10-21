@@ -1,4 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
+using sapaXPrintCore.Jobs;
+using sapaXPrintCore.Models;
 using sapaXPrintCore.Printers;
 using sapaXPrintMaster.Services;
 using System;
@@ -11,22 +13,33 @@ using System.Windows.Media;
 
 namespace sapaXPrintMaster
 {
-    // Administrator tab. DELETE the old admin region from MainWindow.xaml.cs
-    // (from "// ---- Admin / User login system" down to the end of Logout_Click).
+    // Administrator tab.
+    //   SuperAdmin    : everything (DB connection, tables, Administrators and Users, companies, sub areas, agent + printers)
+    //   Administrator : adds standard Users only; no DB connection, organization or agent changes
+    //   User          : no access to this tab (can still print)
     public partial class MainWindow
     {
-        private bool _isAdminLoggedIn;
         private LoggedInUser? _currentUser;
-        private string _apiKey = "";
+
+        private bool IsLoggedIn => _currentUser != null;
+        private bool IsSuperAdmin => _currentUser?.Role == UsersService.SuperAdminRole;
+        private bool CanAdminister => _currentUser?.Role is UsersService.SuperAdminRole or UsersService.AdminRole;
 
         // ------------------------------------------------------------
         // Helpers
         // ------------------------------------------------------------
-        private static void Say(TextBlock t, string msg, bool ok, bool show = true)
+        private static void Say(TextBlock t, string msg, bool ok)
         {
-            t.Visibility = show ? Visibility.Visible : Visibility.Collapsed;
+            t.Visibility = Visibility.Visible;
             t.Foreground = ok ? Brushes.SeaGreen : Brushes.Firebrick;
             t.Text = (ok ? "✔ " : "✘ ") + msg;
+        }
+
+        private static void Info(TextBlock t, string msg)
+        {
+            t.Visibility = Visibility.Visible;
+            t.Foreground = Brushes.Gray;
+            t.Text = msg;
         }
 
         private void LoadDbFields()
@@ -39,15 +52,12 @@ namespace sapaXPrintMaster
             txtDbUser.Text = s.User;
         }
 
-        private void PopulateTableCombo()
-        {
-            cmbTemplateTable.ItemsSource = SchemaTemplates.Available(_isAdminLoggedIn).ToList();
-            cmbTemplateTable.SelectedIndex = 0;
-            btnCreateAll.Visibility = _isAdminLoggedIn ? Visibility.Visible : Visibility.Collapsed;
-        }
-
         // ------------------------------------------------------------
-        // State machine: decides which steps are visible
+        // State machine. Before sign-in the order is:
+        //   1. Database connection (hidden once this PC is registered as an agent)
+        //   2. Users table
+        //   3. First SuperAdmin
+        //   4. Sign in
         // ------------------------------------------------------------
         private async void CheckFirstRunAsync() => await RefreshAdminStateAsync();
 
@@ -55,51 +65,109 @@ namespace sapaXPrintMaster
         {
             LoadDbFields();
 
-            pnlTablesStep.Visibility = pnlCreateAdmin.Visibility =
-                pnlLogin.Visibility = pnlSignUp.Visibility = Visibility.Collapsed;
-
-            if (_isAdminLoggedIn)
+            if (IsLoggedIn)
             {
-                pnlAdmin.Visibility = Visibility.Visible;
-                pnlTablesStep.Visibility = Visibility.Visible;
+                await ShowLoggedInStateAsync();
                 return;
             }
-            pnlAdmin.Visibility = Visibility.Collapsed;
 
+            pnlAdmin.Visibility = Visibility.Collapsed;
+            pnlLogin.Visibility = Visibility.Collapsed;
+            pnlCreateAdmin.Visibility = Visibility.Collapsed;
+            pnlTablesStep.Visibility = Visibility.Collapsed;
+
+            // No saved connection: the form is the only thing to show.
             if (!DbConfig.IsConfigured)
             {
-                txtDbStatus.Foreground = Brushes.Gray;
-                txtDbStatus.Text = "Enter the database connection and click Test & Save.";
+                pnlDbConnection.Visibility = Visibility.Visible;
+                Info(txtDbStatus, "Enter the database connection and click Test & Save.");
                 return;
             }
 
             try
             {
-                bool usersTable = await AdminDbService.TableExistsAsync("Users");
-                txtDbStatus.Foreground = Brushes.SeaGreen;
-                txtDbStatus.Text = "✔ Database connection saved.";
+                // Connection works: hide the form before sign-in.
+                // SuperAdmin can still change it after signing in.
+                await AdminDbService.TableExistsAsync("Users");
+                pnlDbConnection.Visibility = Visibility.Collapsed;
 
-                PopulateTableCombo();
-                pnlTablesStep.Visibility = Visibility.Visible;
+                await RefreshTablesStepAsync();
+                if (pnlTablesStep.Visibility == Visibility.Visible)
+                    return;                               // Users table still missing
 
-                if (!usersTable)
+                if (!await UsersService.SuperAdminExistsAsync())
                 {
-                    Say(txtTablesStatus, "Users table doesn't exist yet. Create it here first.", false);
+                    pnlCreateAdmin.Visibility = Visibility.Visible;
                     return;
                 }
 
-                txtTablesStatus.Text = "";
-                bool hasAdmin = await UsersService.SuperAdminExistsAsync();
-                (hasAdmin ? pnlLogin : pnlCreateAdmin).Visibility = Visibility.Visible;
+                pnlLogin.Visibility = Visibility.Visible;
             }
             catch (Exception ex)
             {
-                Say(txtDbStatus, "Cannot reach the database: " + ex.Message, false);
+                // Connection failed: show the form with the reason.
+                pnlDbConnection.Visibility = Visibility.Visible;
+                Say(txtDbStatus, AdminDbService.FriendlyError(ex), false);
             }
         }
 
+        private async Task ShowLoggedInStateAsync()
+        {
+            pnlCreateAdmin.Visibility = Visibility.Collapsed;
+            pnlLogin.Visibility = Visibility.Collapsed;
+            pnlAdmin.Visibility = Visibility.Visible;
+            txtLoggedInAs.Text = $"Signed in as {_currentUser!.UserId} ({_currentUser.Role})";
+
+            bool su = IsSuperAdmin;
+
+            tabsAdmin.Visibility = CanAdminister ? Visibility.Visible : Visibility.Collapsed;
+            pnlNoAccess.Visibility = CanAdminister ? Visibility.Collapsed : Visibility.Visible;
+
+            pnlDbConnection.Visibility = su ? Visibility.Visible : Visibility.Collapsed;
+            tabOrg.Visibility = su ? Visibility.Visible : Visibility.Collapsed;
+            pnlRegister.Visibility = su ? Visibility.Visible : Visibility.Collapsed;
+            txtAgentLocked.Visibility = su ? Visibility.Collapsed : Visibility.Visible;
+
+            cmbNewUserRole.ItemsSource = su
+                ? new[] { UsersService.UserRole, UsersService.AdminRole }
+                : new[] { UsersService.UserRole };
+            cmbNewUserRole.SelectedIndex = 0;
+
+            if (!CanAdminister) return;
+
+            try
+            {
+                await RefreshTablesStepAsync();
+                await LoadAdminDataAsync();
+                await LoadRegisteredAsync();
+            }
+            catch (Exception ex)
+            {
+                Say(txtRegisterStatus, AdminDbService.FriendlyError(ex), false);
+            }
+        }
+
+        // Shows the "Create Tables" step only when something is missing.
+        // Before sign-in: only Users can be created. After sign-in: SuperAdmin creates the rest.
+        private async Task RefreshTablesStepAsync()
+        {
+            if (IsLoggedIn && !IsSuperAdmin)
+            {
+                pnlTablesStep.Visibility = Visibility.Collapsed;
+                return;
+            }
+
+            var missing = await AdminDbService.GetMissingTableNamesAsync();
+            var allowed = SchemaTemplates.Available(IsLoggedIn).Where(n => missing.Contains(n)).ToList();
+
+            cmbTemplateTable.ItemsSource = allowed;
+            cmbTemplateTable.SelectedIndex = allowed.Count > 0 ? 0 : -1;
+            btnCreateAll.Visibility = IsLoggedIn && allowed.Count > 1 ? Visibility.Visible : Visibility.Collapsed;
+            pnlTablesStep.Visibility = allowed.Count > 0 ? Visibility.Visible : Visibility.Collapsed;
+        }
+
         // ------------------------------------------------------------
-        // Step 1: connection
+        // Step 1: database connection (SuperAdmin only after sign-in)
         // ------------------------------------------------------------
         private void chkWindowsAuth_Changed(object sender, RoutedEventArgs e)
         {
@@ -109,6 +177,8 @@ namespace sapaXPrintMaster
 
         private async void SaveDb_Click(object sender, RoutedEventArgs e)
         {
+            if (IsLoggedIn && !IsSuperAdmin) return;
+
             var saved = DbConfig.Load();
             var s = new DbSettings
             {
@@ -120,22 +190,24 @@ namespace sapaXPrintMaster
             };
 
             btnSaveDb.IsEnabled = false;
-            txtDbStatus.Foreground = Brushes.Gray;
-            txtDbStatus.Text = "Testing connection...";
+            Info(txtDbStatus, "Testing connection...");
 
             try
             {
-                var version = await AdminDbService.TestAsync(s);
-                DbConfig.Save(s);                       // only saved after a successful test
+                await AdminDbService.TestAsync(s);
+                DbConfig.Save(s);                 // saved only after a successful test
                 pwdDb.Clear();
-                Say(txtDbStatus, $"Connected and saved (server {version}).", true);
                 await RefreshAdminStateAsync();
+                Say(txtDbStatus, "Connection saved.", true);
             }
             catch (Exception ex)
             {
-                Say(txtDbStatus, "Connection failed: " + ex.Message, false);
+                Say(txtDbStatus, AdminDbService.FriendlyError(ex), false);
             }
-            finally { btnSaveDb.IsEnabled = true; }
+            finally
+            {
+                btnSaveDb.IsEnabled = true;
+            }
         }
 
         // ------------------------------------------------------------
@@ -144,34 +216,40 @@ namespace sapaXPrintMaster
         private async void CreateTable_Click(object sender, RoutedEventArgs e)
         {
             if (cmbTemplateTable.SelectedItem is not string name) return;
+            if (IsLoggedIn && !IsSuperAdmin) return;
+
             btnCreateTable.IsEnabled = false;
             try
             {
-                bool created = await AdminDbService.CreateTableAsync(name);
-                Say(txtTablesStatus, created ? $"Table {name} created." : $"Table {name} already exists (columns checked / upgraded).", true);
-                await RefreshAfterTableChange();
+                await AdminDbService.CreateTableAsync(name);
+                Say(txtTablesStatus, $"Table {name} created.", true);
+                await RefreshAdminStateAsync();
             }
-            catch (Exception ex) { Say(txtTablesStatus, ex.Message, false); }
-            finally { btnCreateTable.IsEnabled = true; }
+            catch (Exception ex)
+            {
+                Say(txtTablesStatus, AdminDbService.FriendlyError(ex), false);
+            }
+            finally
+            {
+                btnCreateTable.IsEnabled = true;
+            }
         }
 
         private async void CreateAll_Click(object sender, RoutedEventArgs e)
         {
-            if (!_isAdminLoggedIn) return;
+            if (!IsSuperAdmin) return;
             try
             {
                 var created = await AdminDbService.CreateAllMissingAsync();
-                Say(txtTablesStatus, created.Count == 0 ? "All tables already exist (columns checked / upgraded)."
-                                                         : "Created: " + string.Join(", ", created), true);
-                await RefreshAfterTableChange();
+                Say(txtTablesStatus,
+                    created.Count == 0 ? "Nothing to create." : "Created: " + string.Join(", ", created),
+                    true);
+                await RefreshAdminStateAsync();
             }
-            catch (Exception ex) { Say(txtTablesStatus, ex.Message, false); }
-        }
-
-        private async Task RefreshAfterTableChange()
-        {
-            if (_isAdminLoggedIn) await LoadTablesListAsync();
-            else await RefreshAdminStateAsync();   // may reveal the "create admin" step
+            catch (Exception ex)
+            {
+                Say(txtTablesStatus, AdminDbService.FriendlyError(ex), false);
+            }
         }
 
         private async Task LoadTablesListAsync()
@@ -184,70 +262,34 @@ namespace sapaXPrintMaster
         private async void RefreshTables_Click(object sender, RoutedEventArgs e)
         {
             try { await LoadTablesListAsync(); }
-            catch (Exception ex) { MessageBox.Show(ex.Message, "Error"); }
+            catch (Exception ex) { MessageBox.Show(AdminDbService.FriendlyError(ex), "Error"); }
         }
 
         // ------------------------------------------------------------
-        // Step 3: first admin / sign up
+        // Step 3: first SuperAdmin
         // ------------------------------------------------------------
         private async void CreateFirstAdmin_Click(object sender, RoutedEventArgs e)
         {
-            txtCreateAdminStatus.Visibility = Visibility.Visible;
-            txtCreateAdminStatus.Foreground = Brushes.Gray;
-            txtCreateAdminStatus.Text = "Creating account...";
+            Info(txtCreateAdminStatus, "Creating account...");
 
-            var (success, message) = await UsersService.CreateFirstAdminAsync(
-                txtNewAdminUserId.Text, pwdNewAdminPassword.Password,
-                txtNewAdminUserName.Text, txtNewAdminEmail.Text);
+            var (ok, message) = await UsersService.CreateFirstAdminAsync(
+                txtNewAdminUserId.Text,
+                pwdNewAdminPassword.Password,
+                txtNewAdminUserName.Text,
+                txtNewAdminEmail.Text);
 
-            Say(txtCreateAdminStatus, message, success);
-
-            if (success)
+            if (!ok)
             {
-                pwdNewAdminPassword.Clear();
-                await Task.Delay(800);
-                pnlCreateAdmin.Visibility = Visibility.Collapsed;
-                pnlLogin.Visibility = Visibility.Visible;
+                Say(txtCreateAdminStatus, message, false);
+                return;
             }
-        }
 
-        private void ShowSignUp_Click(object sender, RoutedEventArgs e)
-        {
-            pnlLogin.Visibility = Visibility.Collapsed;
-            pnlSignUp.Visibility = Visibility.Visible;
-        }
-
-        private void ShowLogin_Click(object sender, RoutedEventArgs e)
-        {
-            pnlSignUp.Visibility = Visibility.Collapsed;
-            pnlLogin.Visibility = Visibility.Visible;
-        }
-
-        private async void SignUp_Click(object sender, RoutedEventArgs e)
-        {
-            txtSignupStatus.Visibility = Visibility.Visible;
-            txtSignupStatus.Foreground = Brushes.Gray;
-            txtSignupStatus.Text = "Creating account...";
-
-            var (result, message) = await UsersService.SignUpAsync(
-                txtSignupUserId.Text, pwdSignupPassword.Password, txtSignupUserName.Text,
-                txtSignupEmail.Text, txtSignupActivationKey.Text);
-
-            bool success = result == SignupResult.Success;
-            Say(txtSignupStatus, message, success);
-
-            if (success)
-            {
-                pwdSignupPassword.Clear();
-                txtSignupActivationKey.Clear();
-                await Task.Delay(1000);
-                pnlSignUp.Visibility = Visibility.Collapsed;
-                pnlLogin.Visibility = Visibility.Visible;
-            }
+            pwdNewAdminPassword.Clear();
+            await RefreshAdminStateAsync();      // next: sign in
         }
 
         // ------------------------------------------------------------
-        // Step 4: login / logout
+        // Step 4: sign in / sign out
         // ------------------------------------------------------------
         private void pwdPassword_KeyDown(object sender, KeyEventArgs e)
         {
@@ -263,62 +305,85 @@ namespace sapaXPrintMaster
             var (result, user, message) = await UsersService.LoginAsync(txtUsername.Text, pwdPassword.Password);
             pwdPassword.Clear();
 
-            if (result == LoginResult.Success && user != null)
-            {
-                _isAdminLoggedIn = true;
-                _currentUser = user;
-                txtLoggedInAs.Text = $"Logged in as: {user.UserId} ({user.Role})";
-
-                pnlLogin.Visibility = Visibility.Collapsed;
-                pnlAdmin.Visibility = Visibility.Visible;
-                PopulateTableCombo();                 // now ALL templates
-                await LoadAdminDataAsync();
-            }
-            else
+            if (result != LoginResult.Success || user == null)
             {
                 txtLoginError.Text = message;
                 txtLoginError.Visibility = Visibility.Visible;
+                return;
             }
+
+            _currentUser = user;
+            txtUsername.Clear();
+            await RefreshAdminStateAsync();
         }
 
-        private void Logout_Click(object sender, RoutedEventArgs e)
+        private async void Logout_Click(object sender, RoutedEventArgs e)
         {
-            _isAdminLoggedIn = false;
             _currentUser = null;
-            _apiKey = "";
-            txtApiKey.Text = "";
-            txtUsername.Clear();
             pwdPassword.Clear();
-            PopulateTableCombo();                     // back to Users only
-            _ = RefreshAdminStateAsync();
+            await RefreshAdminStateAsync();
         }
 
         // ------------------------------------------------------------
-        // After login: load everything
+        // After sign-in: load the admin data
         // ------------------------------------------------------------
         private async Task LoadAdminDataAsync()
         {
-            txtComputerId.Text = ComputerIdentityService.GetComputerId();
+            string computerId = ComputerIdentityService.GetComputerId();
+            txtComputerId.Text = computerId;
 
             var creds = AgentCredentialStore.Load();
             txtAgentName.Text = creds?.AgentName is { Length: > 0 } n ? n : Environment.MachineName;
-            txtCloudUrl.Text = creds?.CloudUrl is { Length: > 0 } u ? u : AppSettings.CloudUrl;
-            _apiKey = creds?.ComputerId == txtComputerId.Text ? creds?.ApiKey ?? "" : "";
-            ShowKey_Changed(null!, null!);
+            txtPollSeconds.Text = AppSettings.PollIntervalSeconds.ToString();
+            txtPollStatus.Text = "";
 
-            try
-            {
-                await LoadTablesListAsync();
+            await LoadTablesListAsync();
+            await LoadRegisteredAsync();
+
+            if (IsSuperAdmin)
                 await ReloadCompaniesAsync();
-            }
-            catch (Exception ex)
+
+            bool registered = await AdminDbService.IsComputerRegisteredAsync(computerId);
+            if (registered)
+                Say(txtRegisterStatus, "This computer is registered as an agent.", true);
+            else
+                Info(txtRegisterStatus, "This computer is not registered as an agent yet.");
+        }
+
+        // ------------------------------------------------------------
+        // Users (Administrator: standard users only; SuperAdmin: also Administrators)
+        // ------------------------------------------------------------
+        private async void AddUser_Click(object sender, RoutedEventArgs e)
+        {
+            if (_currentUser == null) return;
+
+            if (cmbNewUserRole.SelectedItem is not string role)
             {
-                Say(txtOrgStatus, "Could not load data (are all tables created?): " + ex.Message, false);
+                Say(txtAddUserStatus, "Choose a role.", false);
+                return;
+            }
+
+            var (ok, message) = await UsersService.AddUserAsync(
+                _currentUser.Role,
+                role,
+                txtAddUserId.Text,
+                pwdAddUserPassword.Password,
+                txtAddUserName.Text,
+                txtAddUserEmail.Text);
+
+            Say(txtAddUserStatus, message, ok);
+
+            if (ok)
+            {
+                txtAddUserId.Clear();
+                pwdAddUserPassword.Clear();
+                txtAddUserName.Clear();
+                txtAddUserEmail.Clear();
             }
         }
 
         // ------------------------------------------------------------
-        // Companies / sub areas
+        // Organization (SuperAdmin only): companies and sub areas
         // ------------------------------------------------------------
         private async Task ReloadCompaniesAsync()
         {
@@ -335,126 +400,210 @@ namespace sapaXPrintMaster
 
         private async void cmbCompany_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (cmbCompany.SelectedItem is not CompanyRow c) { cmbSubArea.ItemsSource = null; return; }
+            await LoadSubAreasAsync(cmbCompany.SelectedItem as CompanyRow, txtRegisterStatus);
+        }
+
+        private async Task LoadSubAreasAsync(CompanyRow? company, TextBlock status)
+        {
+            if (company == null)
+            {
+                cmbSubArea.ItemsSource = null;
+                return;
+            }
+
             try
             {
-                var subs = await AdminDbService.GetSubAreasAsync(c.CompanyID);
+                var subs = await AdminDbService.GetSubAreasAsync(company.CompanyID);
                 cmbSubArea.ItemsSource = subs;
                 cmbSubArea.SelectedIndex = subs.Count > 0 ? 0 : -1;
             }
-            catch (Exception ex) { Say(txtRegisterStatus, ex.Message, false); }
+            catch (Exception ex)
+            {
+                Say(status, AdminDbService.FriendlyError(ex), false);
+            }
         }
 
         private async void AddCompany_Click(object sender, RoutedEventArgs e)
         {
+            if (!IsSuperAdmin) return;
+
             if (string.IsNullOrWhiteSpace(txtCompanyId.Text) || string.IsNullOrWhiteSpace(txtCompanyName.Text))
-            { Say(txtOrgStatus, "Company ID and name are required.", false); return; }
+            {
+                Say(txtOrgStatus, "Company ID and name are required.", false);
+                return;
+            }
 
             try
             {
                 await AdminDbService.AddCompanyAsync(txtCompanyId.Text, txtCompanyName.Text);
-                txtCompanyId.Clear(); txtCompanyName.Clear();
+                txtCompanyId.Clear();
+                txtCompanyName.Clear();
                 Say(txtOrgStatus, "Company added.", true);
                 await ReloadCompaniesAsync();
             }
-            catch (SqlException ex) when (ex.Number is 2627 or 2601)
-            { Say(txtOrgStatus, "That Company ID already exists.", false); }
-            catch (Exception ex) { Say(txtOrgStatus, ex.Message, false); }
+            catch (Exception ex)
+            {
+                Say(txtOrgStatus, AdminDbService.FriendlyError(ex), false);
+            }
         }
 
         private async void AddSubArea_Click(object sender, RoutedEventArgs e)
         {
-            if (cmbMgrCompany.SelectedItem is not CompanyRow c)
-            { Say(txtOrgStatus, "Select a company first.", false); return; }
+            if (!IsSuperAdmin) return;
+
+            if (cmbMgrCompany.SelectedItem is not CompanyRow company)
+            {
+                Say(txtOrgStatus, "Select a company first.", false);
+                return;
+            }
             if (string.IsNullOrWhiteSpace(txtSubAreaId.Text) || string.IsNullOrWhiteSpace(txtSubAreaName.Text))
-            { Say(txtOrgStatus, "Sub area ID and name are required.", false); return; }
+            {
+                Say(txtOrgStatus, "Sub area ID and name are required.", false);
+                return;
+            }
 
             try
             {
-                await AdminDbService.AddSubAreaAsync(c.CompanyID, txtSubAreaId.Text, txtSubAreaName.Text);
-                txtSubAreaId.Clear(); txtSubAreaName.Clear();
+                await AdminDbService.AddSubAreaAsync(company.CompanyID, txtSubAreaId.Text, txtSubAreaName.Text);
+                txtSubAreaId.Clear();
+                txtSubAreaName.Clear();
                 Say(txtOrgStatus, "Sub area added.", true);
-                cmbCompany_SelectionChanged(null!, null!);
+                await LoadSubAreasAsync(cmbCompany.SelectedItem as CompanyRow, txtRegisterStatus);
             }
-            catch (SqlException ex) when (ex.Number is 2627 or 2601)
-            { Say(txtOrgStatus, "That Sub area ID already exists for this company.", false); }
-            catch (Exception ex) { Say(txtOrgStatus, ex.Message, false); }
+            catch (Exception ex)
+            {
+                Say(txtOrgStatus, AdminDbService.FriendlyError(ex), false);
+            }
         }
 
         // ------------------------------------------------------------
-        // Register computer + API key
+        // Agent (SuperAdmin only): register this computer and its printers
         // ------------------------------------------------------------
-        private async void RegisterComputer_Click(object sender, RoutedEventArgs e) => await RegisterAsync(false);
-
-        private async void RegenerateKey_Click(object sender, RoutedEventArgs e)
+        private async void RegisterComputer_Click(object sender, RoutedEventArgs e)
         {
-            var ok = MessageBox.Show(
-                "Create a new API key? The old key stops working immediately and this agent must restart.",
-                "Regenerate API key", MessageBoxButton.YesNo, MessageBoxImage.Warning);
-            if (ok == MessageBoxResult.Yes) await RegisterAsync(true);
-        }
+            if (!IsSuperAdmin) return;
 
-        private async Task RegisterAsync(bool regenerate)
-        {
             if (cmbCompany.SelectedItem is not CompanyRow company)
-            { Say(txtRegisterStatus, "Select a company (add one above if the list is empty).", false); return; }
+            {
+                Say(txtRegisterStatus, "Select a company (add one in the Organization tab first).", false);
+                return;
+            }
             if (cmbSubArea.SelectedItem is not SubAreaRow sub)
-            { Say(txtRegisterStatus, "Select a sub area (add one above if the list is empty).", false); return; }
+            {
+                Say(txtRegisterStatus, "Select a sub area (add one in the Organization tab first).", false);
+                return;
+            }
 
-            var computerId = txtComputerId.Text;
-            var agentName = string.IsNullOrWhiteSpace(txtAgentName.Text) ? Environment.MachineName : txtAgentName.Text.Trim();
-            var cloudUrl = txtCloudUrl.Text.Trim();
+            var printers = lstAgentPrinters.SelectedItems.Cast<PrinterInfo>().ToList();
+            if (printers.Count == 0)
+            {
+                Say(txtRegisterStatus, "Select at least one printer on this computer.", false);
+                return;
+            }
+
+            string computerId = txtComputerId.Text;
+            string agentName = string.IsNullOrWhiteSpace(txtAgentName.Text)
+                ? Environment.MachineName
+                : txtAgentName.Text.Trim();
 
             btnRegister.IsEnabled = false;
-            txtRegisterStatus.Foreground = Brushes.Gray;
-            txtRegisterStatus.Text = "Registering...";
+            Info(txtRegisterStatus, "Registering...");
 
             try
             {
-                var rawKey = await AdminDbService.RegisterComputerAsync(
-                    computerId, agentName, company.CompanyID, sub.SubAreaID, regenerate);
+                await AdminDbService.RegisterComputerAsync(computerId, agentName, company.CompanyID, sub.SubAreaID, printers);
 
-                var local = AgentCredentialStore.Load();
-                var keepOld = rawKey == null && local?.ComputerId == computerId && !string.IsNullOrEmpty(local.ApiKey);
-
-                if (rawKey == null && !keepOld)
+                AppSettings.Update(c =>
                 {
-                    Say(txtRegisterStatus,
-                        "This computer already has a key that was created elsewhere and can't be shown again. Click Regenerate.",
-                        false);
-                    return;
-                }
-
-                _apiKey = rawKey ?? local!.ApiKey;
-                AgentCredentialStore.Save(new AgentCredentials
-                {
-                    ComputerId = computerId,
-                    AgentName = agentName,
-                    ApiKey = _apiKey,
-                    CloudUrl = cloudUrl
+                    c.ComputerId = computerId;
+                    c.AgentName = agentName;
                 });
-                ShowKey_Changed(null!, null!);
 
-                Say(txtRegisterStatus,
-                    rawKey != null ? "Registered. New API key created. Restart the app to start using it."
-                                   : "Registration updated.", true);
-                await LoadTablesListAsync();
+                Say(txtRegisterStatus, $"Computer registered with {printers.Count} printer(s).", true);
             }
-            catch (Exception ex) { Say(txtRegisterStatus, ex.Message, false); }
-            finally { btnRegister.IsEnabled = true; }
+            catch (Exception ex)
+            {
+                Say(txtRegisterStatus, AdminDbService.FriendlyError(ex), false);
+            }
+            finally
+            {
+                btnRegister.IsEnabled = true;
+            }
         }
 
-        private void ShowKey_Changed(object sender, RoutedEventArgs e)
+        // ------------------------------------------------------------
+        // Job polling interval (local setting, every signed-in administrator)
+        // ------------------------------------------------------------
+        private void SavePoll_Click(object sender, RoutedEventArgs e)
         {
-            if (txtApiKey == null) return;
-            txtApiKey.Text = chkShowKey.IsChecked == true || string.IsNullOrEmpty(_apiKey)
-                ? _apiKey
-                : new string('•', 24);
+            if (!CanAdminister) return;
+
+            if (!int.TryParse(txtPollSeconds.Text.Trim(), out int seconds) ||
+                seconds < DbJobPoller.MinIntervalSeconds || seconds > DbJobPoller.MaxIntervalSeconds)
+            {
+                Say(txtPollStatus,
+                    $"Enter a whole number between {DbJobPoller.MinIntervalSeconds} and {DbJobPoller.MaxIntervalSeconds}.",
+                    false);
+                return;
+            }
+
+            AppSettings.Update(c => c.PollIntervalSeconds = seconds);
+            Say(txtPollStatus, $"Saved. This computer checks for new print jobs every {seconds} second(s).", true);
         }
 
-        private void CopyKey_Click(object sender, RoutedEventArgs e)
+        // ------------------------------------------------------------
+        // Registered printers tab (view only, both admin roles)
+        // ------------------------------------------------------------
+        private async Task LoadRegisteredAsync()
         {
-            if (!string.IsNullOrEmpty(_apiKey)) Clipboard.SetText(_apiKey);
+            try
+            {
+                var computers = await AdminDbService.GetComputersAsync();
+
+                var items = new List<ComputerRow>
+        {
+            new ComputerRow { ComputerID = "", ComputerName = "All computers" }
+        };
+                items.AddRange(computers);
+
+                string keep = (cmbRegComputer.SelectedItem as ComputerRow)?.ComputerID ?? "";
+                cmbRegComputer.ItemsSource = items;
+                cmbRegComputer.SelectedItem = items.FirstOrDefault(c => c.ComputerID == keep) ?? items[0];
+
+                await LoadRegisteredPrintersAsync();
+            }
+            catch (Exception ex)
+            {
+                Say(txtRegisteredStatus, AdminDbService.FriendlyError(ex), false);
+            }
+        }
+
+        private async Task LoadRegisteredPrintersAsync()
+        {
+            try
+            {
+                string? cid = (cmbRegComputer.SelectedItem as ComputerRow)?.ComputerID;
+                var rows = await AdminDbService.GetRegisteredPrintersAsync(
+                    string.IsNullOrEmpty(cid) ? null : cid);
+
+                dgRegistered.ItemsSource = rows;
+                Info(txtRegisteredStatus, $"{rows.Count} printer(s) shown.");
+            }
+            catch (Exception ex)
+            {
+                Say(txtRegisteredStatus, AdminDbService.FriendlyError(ex), false);
+            }
+        }
+
+        private async void cmbRegComputer_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (!IsLoggedIn) return;
+            await LoadRegisteredPrintersAsync();
+        }
+
+        private async void RefreshRegistered_Click(object sender, RoutedEventArgs e)
+        {
+            await LoadRegisteredAsync();
         }
     }
 }

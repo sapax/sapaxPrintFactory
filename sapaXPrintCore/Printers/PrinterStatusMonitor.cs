@@ -29,7 +29,7 @@ namespace sapaXPrintCore.Printers
         /// </summary>
         public event Action<List<PrinterInfo>>? PrintersChanged;
 
-        public PrinterStatusMonitor(TimeSpan? interval = null, bool checkNetworkReachability = true)
+        public PrinterStatusMonitor(TimeSpan? interval = null, bool checkNetworkReachability = false)
         {
             _interval = interval ?? TimeSpan.FromSeconds(3);
             _checkNetwork = checkNetworkReachability;

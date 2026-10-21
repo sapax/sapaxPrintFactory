@@ -13,8 +13,8 @@ namespace sapaXPrintMaster.Services
     }
 
     /// <summary>
-    /// No credentials in source code any more. The admin enters them once in the
-    /// Administrator tab; they are stored encrypted (DPAPI) in %AppData%.
+    /// No credentials in source code. The SuperAdmin enters them in the Administrator tab;
+    /// they are stored encrypted (DPAPI) under %AppData%.
     /// </summary>
     public static class DbConfig
     {
@@ -38,10 +38,9 @@ namespace sapaXPrintMaster.Services
         public static bool IsConfigured =>
             Load() is { } s && !string.IsNullOrWhiteSpace(s.Server) && !string.IsNullOrWhiteSpace(s.Database);
 
-        // Same name as before, so ActivationService / UsersService keep working unchanged.
         public static string ConnectionString =>
             Build(Load() ?? throw new InvalidOperationException(
-                "Database is not configured. Open the Administrator tab and set the connection first."));
+                "The database is not configured. Open the Administrator tab and enter the connection."));
 
         public static string Build(DbSettings s)
         {
@@ -49,13 +48,21 @@ namespace sapaXPrintMaster.Services
             {
                 DataSource = s.Server.Trim(),
                 InitialCatalog = s.Database.Trim(),
-                ConnectTimeout = 10,
+                // Azure SQL serverless can take a while to resume after a pause
+                ConnectTimeout = 30,
                 Encrypt = true,
                 TrustServerCertificate = false
             };
 
-            if (s.UseWindowsAuth) b.IntegratedSecurity = true;
-            else { b.UserID = s.User.Trim(); b.Password = s.Password; }
+            if (s.UseWindowsAuth)
+            {
+                b.IntegratedSecurity = true;
+            }
+            else
+            {
+                b.UserID = s.User.Trim();
+                b.Password = s.Password;
+            }
 
             return b.ConnectionString;
         }

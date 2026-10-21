@@ -18,7 +18,9 @@ namespace sapaXPrintCore.Models
     public class PrintJob
     {
         public Guid JobId { get; } = Guid.NewGuid();
-        public Guid CloudJobId { get; set; }
+
+        /// <summary>JobId of the row in dbo.PrintJobs (the result is written back to this row).</summary>
+        public Guid DbJobId { get; set; }
 
         public string JobType { get; set; } = "PDF";      // "PDF" or "ZPL"
 

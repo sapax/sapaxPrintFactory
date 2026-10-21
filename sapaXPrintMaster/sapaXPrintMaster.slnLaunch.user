@@ -1,13 +1,9 @@
 [
   {
-    "Name": "MasterAndCloudWithfakezebra",
+    "Name": "MasterAndfakezebra",
     "Projects": [
       {
         "Path": "sapaXPrintMaster.csproj",
-        "Action": "Start"
-      },
-      {
-        "Path": "..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj",
         "Action": "Start"
       },
       {
@@ -21,10 +17,6 @@
     "Projects": [
       {
         "Path": "sapaXPrintMaster.csproj",
-        "Action": "Start"
-      },
-      {
-        "Path": "..\\..\\v1.0.7\\sapaXPrintCloud\\sapaXPrintCloud.csproj",
         "Action": "Start"
       }
     ]

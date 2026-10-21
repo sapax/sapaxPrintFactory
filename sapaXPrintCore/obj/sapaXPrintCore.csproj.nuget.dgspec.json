@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\sapaXPrintCore.csproj": {}
+    "F:\\sapaxFactory\\PrintMaster\\sapaXPrintCore\\sapaXPrintCore.csproj": {}
   },
   "projects": {
-    "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\sapaXPrintCore.csproj": {
+    "F:\\sapaxFactory\\PrintMaster\\sapaXPrintCore\\sapaXPrintCore.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\sapaXPrintCore.csproj",
+        "projectUniqueName": "F:\\sapaxFactory\\PrintMaster\\sapaXPrintCore\\sapaXPrintCore.csproj",
         "projectName": "sapaXPrintCore",
-        "projectPath": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\sapaXPrintCore.csproj",
+        "projectPath": "F:\\sapaxFactory\\PrintMaster\\sapaXPrintCore\\sapaXPrintCore.csproj",
         "packagesPath": "C:\\Users\\dev\\.nuget\\packages\\",
-        "outputPath": "D:\\sapaXPrintingNode\\v6\\sapaXPrintCore\\obj\\",
+        "outputPath": "F:\\sapaxFactory\\PrintMaster\\sapaXPrintCore\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -50,6 +50,10 @@
         "net8.0-windows7.0": {
           "targetAlias": "net8.0-windows",
           "dependencies": {
+            "Microsoft.Data.SqlClient": {
+              "target": "Package",
+              "version": "[7.1.1, )"
+            },
             "PdfSharpCore": {
               "target": "Package",
               "version": "[1.3.67, )"
