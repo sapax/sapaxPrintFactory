@@ -9,7 +9,7 @@ sapaXPrintInstaller/
 *.bmp
 *.ps1
 *.manifest
-
+.gitignore
 
 # Publish output
 publish/
