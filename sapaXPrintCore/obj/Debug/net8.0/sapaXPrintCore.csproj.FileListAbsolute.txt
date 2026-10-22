@@ -1,4 +1,0 @@
-D:\sapaXPrintingNode\v6\sapaXPrintCore\obj\Debug\net8.0\sapaXPrintCore.GeneratedMSBuildEditorConfig.editorconfig
-D:\sapaXPrintingNode\v6\sapaXPrintCore\obj\Debug\net8.0\sapaXPrintCore.AssemblyInfoInputs.cache
-D:\sapaXPrintingNode\v6\sapaXPrintCore\obj\Debug\net8.0\sapaXPrintCore.AssemblyInfo.cs
-D:\sapaXPrintingNode\v6\sapaXPrintCore\obj\Debug\net8.0\sapaXPrintCore.csproj.CoreCompileInputs.cache

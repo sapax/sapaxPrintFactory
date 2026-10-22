@@ -4,6 +4,7 @@ using System.Data;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using sapaXPrintCore.Settings;
 
 namespace sapaXPrintMaster.Services
 {

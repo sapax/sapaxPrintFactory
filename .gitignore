@@ -2,6 +2,15 @@
 [Bb]in/
 [Oo]bj/
 
+# Others
+sapaXPrintInstaller/
+*.ico
+*.png
+*.bmp
+*.ps1
+*.manifest
+
+
 # Publish output
 publish/
 
@@ -11,6 +20,7 @@ publish/
 *.suo
 *.userosscache
 *.sln.docstates
+
 
 # Rider
 .idea/
@@ -39,6 +49,7 @@ Desktop.ini
 
 # Azure publish profiles (contains secrets)
 **/Properties/PublishProfiles/*.pubxml.user
+*.pubxml
 
 # ReSharper
 _ReSharper*/

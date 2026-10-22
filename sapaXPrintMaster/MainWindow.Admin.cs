@@ -1,15 +1,16 @@
-﻿using Microsoft.Data.SqlClient;
+﻿using System;
+using System.Windows;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using Microsoft.Data.SqlClient;
 using sapaXPrintCore.Jobs;
 using sapaXPrintCore.Models;
 using sapaXPrintCore.Printers;
 using sapaXPrintMaster.Services;
-using System;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
+using sapaXPrintCore.Settings;
 
 namespace sapaXPrintMaster
 {

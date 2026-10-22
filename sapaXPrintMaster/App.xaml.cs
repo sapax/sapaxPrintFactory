@@ -10,112 +10,82 @@ using sapaXPrintCore.Jobs;
 using sapaXPrintCore.Models;
 using sapaXPrintCore.Printing;
 using sapaXPrintCore.Printers;
+using sapaXPrintCore.Settings;
+using System.Threading;
 
 using Application = System.Windows.Application;
 
 namespace sapaXPrintMaster
 {
+    // Desktop app = admin screen + tray icon + Print tab (queues jobs in the database).
+    // Printing is done by sapaXPrintService, which starts with Windows.
     public partial class App : Application
     {
-        // =========================
-        // Native DLL loading
-        // =========================
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool SetDllDirectory(string lpPathName);
-
-        private NotifyIcon _tray;
-        private MainWindow _mainWindow;
+        private static Mutex? _singleInstance;
+        private NotifyIcon? _tray;
+        private MainWindow? _mainWindow;
 
         protected override void OnStartup(StartupEventArgs e)
         {
-            var exeDir = AppDomain.CurrentDomain.BaseDirectory;
-            var nativeDir = Path.Combine(exeDir, "native", "x64");
-
-            SetDllDirectory(nativeDir);
-
-            Environment.SetEnvironmentVariable(
-                "PATH",
-                nativeDir + ";" + Environment.GetEnvironmentVariable("PATH"),
-                EnvironmentVariableTarget.Process
-            );
-
-            ZebraPrinterService.DryRun = false;
-
-            // =========================
-            // WORKERS
-            // =========================
-            // 1. prints PDF jobs that were queued locally
-            PrintJobWorker.Start();
-
-            // 2. every N seconds (Administrator tab) claims jobs straight from the SQL database
-            DbJobPoller.Start(
-                connectionString: () => DbConfig.IsConfigured ? DbConfig.ConnectionString : null,
-                computerId: () => AppSettings.AgentId,
-                intervalSeconds: () => AppSettings.PollIntervalSeconds,
-                printerProvider: () =>
-                {
-                    // only publish printers that are ticked "Active" in the Printers tab
-                    var printers = PrinterDiscoveryService.GetPrinters(checkNetworkReachability: false);
-                    PrinterPreferenceService.MergePreferences(printers);
-                    return printers.Where(p => p.IsActive).ToList();
-                });
+            // Only one desktop copy per Windows session
+            _singleInstance = new Mutex(true, "sapaXPrintMaster.Desktop", out bool first);
+            if (!first)
+            {
+                Shutdown();
+                return;
+            }
 
             base.OnStartup(e);
 
+            // Start hidden: the window is created (so the printer monitor runs) but not shown
             _mainWindow = new MainWindow();
-            _mainWindow.Hide();
 
             InitTray();
         }
 
-        // ======================================================
-        // Tray UI
-        // ======================================================
         private void InitTray()
         {
             _tray = new NotifyIcon
             {
-                Icon = System.Drawing.SystemIcons.Application, // replace with .ico later
+                Icon = System.Drawing.SystemIcons.Application,   // replace with your .ico later
                 Visible = true,
-                Text = "sapaX Print Node"
+                Text = "sapaX Print Master"
             };
 
             var menu = new ContextMenuStrip();
-
-            menu.Items.Add("Open", null, (_, __) =>
-            {
-                ShowMainWindow();
-            });
-
+            menu.Items.Add("Open", null, (_, __) => ShowMainWindow());
             menu.Items.Add(new ToolStripSeparator());
-
-            menu.Items.Add("Exit", null, (_, __) =>
-            {
-                _tray.Visible = false;
-                _tray.Dispose();
-                Shutdown();
-            });
+            menu.Items.Add("Exit", null, (_, __) => ExitApp());
 
             _tray.ContextMenuStrip = menu;
-
             _tray.DoubleClick += (_, __) => ShowMainWindow();
         }
 
         private void ShowMainWindow()
         {
-            if (_mainWindow == null)
-            {
-                _mainWindow = new MainWindow();
-            }
+            _mainWindow ??= new MainWindow();
 
-            _mainWindow.Show();
-            _mainWindow.WindowState = WindowState.Normal;
+            if (!_mainWindow.IsVisible)
+                _mainWindow.Show();
+
+            if (_mainWindow.WindowState == WindowState.Minimized)
+                _mainWindow.WindowState = WindowState.Normal;
+
             _mainWindow.Activate();
+        }
+
+        private void ExitApp()
+        {
+            _tray?.Dispose();
+            _tray = null;
+            Shutdown();
         }
 
         protected override void OnExit(ExitEventArgs e)
         {
+            _mainWindow?.StopPrinterMonitor();
             _tray?.Dispose();
+            _singleInstance?.Dispose();
             base.OnExit(e);
         }
     }

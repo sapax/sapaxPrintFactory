@@ -7,6 +7,7 @@ using System.Windows.Threading;
 using sapaXPrintCore.Data;
 using sapaXPrintCore.Models;
 using sapaXPrintMaster.Services;
+using sapaXPrintCore.Settings;
 
 namespace sapaXPrintMaster.ViewModels
 {

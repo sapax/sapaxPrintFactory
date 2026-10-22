@@ -1,7 +1,0 @@
-D:\sapaXPrintingNode\v6\FakeZebraPrinter\bin\x64\Release\FakeZebraPrinter.exe.config
-D:\sapaXPrintingNode\v6\FakeZebraPrinter\bin\x64\Release\FakeZebraPrinter.exe
-D:\sapaXPrintingNode\v6\FakeZebraPrinter\bin\x64\Release\FakeZebraPrinter.pdb
-D:\sapaXPrintingNode\v6\FakeZebraPrinter\obj\x64\Release\FakeZebraPrinter.csproj.AssemblyReference.cache
-D:\sapaXPrintingNode\v6\FakeZebraPrinter\obj\x64\Release\FakeZebraPrinter.csproj.CoreCompileInputs.cache
-D:\sapaXPrintingNode\v6\FakeZebraPrinter\obj\x64\Release\FakeZebraPrinter.exe
-D:\sapaXPrintingNode\v6\FakeZebraPrinter\obj\x64\Release\FakeZebraPrinter.pdb

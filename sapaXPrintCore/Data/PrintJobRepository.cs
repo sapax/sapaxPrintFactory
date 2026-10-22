@@ -189,8 +189,9 @@ WHERE JobId = @id;";
         }
 
         // ------------------------------------------------------------------
-        // Heartbeat + publish this computer's printers (only the ones the user
-        // left Active in the Printers tab). Also fails jobs whose agent died.
+        // Heartbeat + status of this computer's registered printers.
+        // Registration (which printers exist and are Active) is done only by the
+        // SuperAdmin in the Administrator tab. The agent never adds or re-activates printers.
         // ------------------------------------------------------------------
         public async Task SyncPrintersAsync(string computerId, IEnumerable<PrinterInfo> printers, CancellationToken ct = default)
         {
@@ -207,35 +208,20 @@ WHERE JobId = @id;";
             var syncTime = DateTime.UtcNow;
             using var tx = con.BeginTransaction();
 
-            const string merge = @"
-MERGE dbo.Printers AS t
-USING (SELECT @cid AS ComputerID, @pid AS PrinterID) AS s
-   ON t.ComputerID = s.ComputerID AND t.PrinterID = s.PrinterID
-WHEN MATCHED THEN
-    UPDATE SET PrinterName = @name, Status = @status, Active = 1, LastSeenAt = @now
-WHEN NOT MATCHED THEN
-    INSERT (ComputerID, PrinterID, PrinterName, Status, Active, LastSeenAt)
-    VALUES (@cid, @pid, @name, @status, 1, @now);";
+            const string update = @"
+                UPDATE dbo.Printers
+                SET PrinterName = @name, Status = @status, LastSeenAt = @now
+                WHERE ComputerID = @cid AND PrinterID = @pid;";
 
             foreach (var p in printers)
             {
-                using var cmd = new SqlCommand(merge, con, tx);
+                using var cmd = new SqlCommand(update, con, tx);
                 cmd.Parameters.AddWithValue("@cid", computerId);
                 cmd.Parameters.AddWithValue("@pid", p.PrinterId);
                 cmd.Parameters.AddWithValue("@name", Db(Trunc(p.PrinterName, 200)));
                 cmd.Parameters.AddWithValue("@status", Db(Trunc(p.Status, 50)));
                 cmd.Parameters.AddWithValue("@now", syncTime);
                 await cmd.ExecuteNonQueryAsync(ct).ConfigureAwait(false);
-            }
-
-            // Printers that were not published in this round are no longer available
-            using (var off = new SqlCommand(
-                "UPDATE dbo.Printers SET Active = 0 WHERE ComputerID = @cid AND Active = 1 AND (LastSeenAt IS NULL OR LastSeenAt < @now)",
-                con, tx))
-            {
-                off.Parameters.AddWithValue("@cid", computerId);
-                off.Parameters.AddWithValue("@now", syncTime);
-                await off.ExecuteNonQueryAsync(ct).ConfigureAwait(false);
             }
 
             using (var beat = new SqlCommand(
@@ -247,10 +233,10 @@ WHEN NOT MATCHED THEN
 
             // Claimed long ago, tried too often, never reported back -> give up
             using (var dead = new SqlCommand(@"
-UPDATE dbo.PrintJobs
-SET Status = 'Failed', ErrorMessage = 'Agent stopped responding while printing this job.',
-    CompletedAt = SYSUTCDATETIME(), LockedUntil = NULL
-WHERE Status = 'Claimed' AND LockedUntil < SYSUTCDATETIME() AND AttemptCount >= @max;", con, tx))
+                UPDATE dbo.PrintJobs
+                SET Status = 'Failed', ErrorMessage = 'Agent stopped responding while printing this job.',
+                    CompletedAt = SYSUTCDATETIME(), LockedUntil = NULL
+                WHERE Status = 'Claimed' AND LockedUntil < SYSUTCDATETIME() AND AttemptCount >= @max;", con, tx))
             {
                 dead.Parameters.AddWithValue("@max", MaxAttempts);
                 await dead.ExecuteNonQueryAsync(ct).ConfigureAwait(false);

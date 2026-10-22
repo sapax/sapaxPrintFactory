@@ -1,12 +1,65 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <!-- Target -->
     <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+
+    <!-- C# -->
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
+
+    <!-- Build -->
     <Platforms>x64</Platforms>
+    <PlatformTarget>x64</PlatformTarget>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+
+    <!-- Application -->
+    <AssemblyName>sapaXPrintFactory</AssemblyName>
+    <RootNamespace>sapaXPrintFactory</RootNamespace>
+
+    <Company>Techone Global Pvt Ltd</Company>
+    <Product>sapaX Print Factory</Product>
+    <Authors>Sapumal Wijesinghe</Authors>
+
+    <ApplicationIcon>Assets\PrintMaster.ico</ApplicationIcon>
+
+    <!-- Version (keep in sync with Package.wxs) -->
+    <Version>1.0.1</Version>
+    <AssemblyVersion>1.0.1.0</AssemblyVersion>
+    <FileVersion>1.0.1.0</FileVersion>
+    <InformationalVersion>1.0.1+Release</InformationalVersion>
+
+    <!-- Publish -->
+    <SelfContained>true</SelfContained>
+
+    <!-- Recommended for Pdfium -->
+    <PublishSingleFile>false</PublishSingleFile>
+
+    <PublishReadyToRun>true</PublishReadyToRun>
+    <PublishTrimmed>false</PublishTrimmed>
+
+    <!-- Optimization -->
+    <Optimize>true</Optimize>
+    <Deterministic>true</Deterministic>
+
+    <!-- Native -->
+    <EnableCompressionInSingleFile>true</EnableCompressionInSingleFile>
+
+    <!-- Windows -->
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+
+    <!-- High DPI -->
+    <ApplicationHighDpiMode>PerMonitorV2</ApplicationHighDpiMode>
+
+    <!-- COM -->
+    <ComVisible>false</ComVisible>
+
+    <!-- Debug -->
+    <DebugType>none</DebugType>
+    <DebugSymbols>false</DebugSymbols>
+
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,9 +67,18 @@
     <None Remove="native\x64\pdfium.dll" />
   </ItemGroup>
 
+  <!-- Copy the tray icon file to the output and publish folders -->
+  <ItemGroup>
+    <None Update="Assets\PrintMaster.ico">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
   <ItemGroup>
     <Content Include="native\x64\pdfium.dll">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>Always</CopyToPublishDirectory>
     </Content>
   </ItemGroup>
 
@@ -24,8 +86,8 @@
     <PackageReference Include="Microsoft.Data.SqlClient" Version="7.1.1" />
     <PackageReference Include="PdfiumViewer.Core" Version="1.0.4" />
     <PackageReference Include="PdfSharpCore" Version="1.3.67" />
-    <PackageReference Include="System.Drawing.Common" Version="10.0.1" />
-    <PackageReference Include="System.Management" Version="10.0.12" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.13" />
+    <PackageReference Include="System.Management" Version="10.0.13" />
     <PackageReference Include="System.Security.Cryptography.ProtectedData" Version="10.0.12" />
   </ItemGroup>
 
